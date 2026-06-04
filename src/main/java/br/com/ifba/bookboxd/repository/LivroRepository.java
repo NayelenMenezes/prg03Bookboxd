@@ -1,13 +1,15 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package br.com.ifba.bookboxd.repository;
 
-/**
- *
- * @author mealf
- */
-public class LivroRepository {
+import br.com.ifba.bookboxd.entity.Livro;
+import java.util.List;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+
+@Repository
+public interface LivroRepository extends JpaRepository<Livro, Long>{
+    List<Livro> findByTituloContainingIgnoreCase (String titulo);
     
-}
+    List<Livro> findByGenero (String genero);
+    
+    boolean extitsByIsbn (String isbn);
+} 
