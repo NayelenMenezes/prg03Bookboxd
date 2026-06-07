@@ -7,9 +7,12 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface LivroRepository extends JpaRepository<Livro, Long>{
+    //procura Livro por titulo ignorando o case sensitive
     List<Livro> findByTituloContainingIgnoreCase (String titulo);
     
-    List<Livro> findByGenero (String genero);
+    //procura Livro por gênero ignorando o case sensitive
+    List<Livro> findByGeneroContainingIgnoreCase (String genero);
     
+    //ver se aquele ISBN já existe
     boolean existsByIsbn (String isbn);
 } 

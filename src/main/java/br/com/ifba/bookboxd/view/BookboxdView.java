@@ -1,14 +1,28 @@
 package br.com.ifba.bookboxd.view;
 
+import br.com.ifba.bookboxd.controller.LivroController;
+import br.com.ifba.bookboxd.controller.LivroIController;
+import br.com.ifba.bookboxd.entity.Livro;
+import java.util.List;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+import org.springframework.stereotype.Component;
+
+@Component // Indica que esta classe é um componente gerenciado pelo Spring Framework
 public class BookboxdView extends javax.swing.JFrame {
     
-    private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(BookboxdView.class.getName());
-
-    /**
-     * Creates new form BookboxdView
-     */
-    public BookboxdView() {
+    private final LivroIController livroController;
+    
+// Construtor: Inicializa componentes, oculta a coluna de ID e lista os livros na tabela    
+    public BookboxdView(LivroIController livroController) {
+        this.livroController = livroController;
         initComponents();
+        
+        tblLivros.getColumnModel().getColumn(0).setMinWidth(0);
+        tblLivros.getColumnModel().getColumn(0).setMaxWidth(0);
+        tblLivros.getColumnModel().getColumn(0).setWidth(0);
+        
+        carregarTodosLivros();// Popula a tabela ao abrir o sistema
     }
 
     /**
@@ -20,117 +34,249 @@ public class BookboxdView extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        PanelLogin = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
-        jPasswordField1 = new javax.swing.JPasswordField();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        lblLivro = new javax.swing.JLabel();
+        btnCadastrar = new javax.swing.JButton();
+        btnEditar = new javax.swing.JButton();
+        btnDeletar = new javax.swing.JButton();
+        btnBuscar = new javax.swing.JButton();
+        txtBusca = new javax.swing.JTextField();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        tblLivros = new javax.swing.JTable();
+        jSeparator1 = new javax.swing.JSeparator();
+        cbFiltro = new javax.swing.JComboBox<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jLabel1.setText("LOGIN");
+        lblLivro.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        lblLivro.setText("LIVRO");
 
-        jLabel2.setText("USUÁRIO");
+        btnCadastrar.setText("CADASTRAR");
+        btnCadastrar.addActionListener(this::btnCadastrarActionPerformed);
 
-        jLabel3.setText("SENHA");
+        btnEditar.setText("EDITAR");
+        btnEditar.addActionListener(this::btnEditarActionPerformed);
 
-        jButton1.setText("ENTRAR");
+        btnDeletar.setText("DELETAR");
+        btnDeletar.addActionListener(this::btnDeletarActionPerformed);
 
-        jButton2.setText("CADASTRAR-SE");
+        btnBuscar.setText("BUSCAR");
+        btnBuscar.addActionListener(this::btnBuscarActionPerformed);
 
-        javax.swing.GroupLayout PanelLoginLayout = new javax.swing.GroupLayout(PanelLogin);
-        PanelLogin.setLayout(PanelLoginLayout);
-        PanelLoginLayout.setHorizontalGroup(
-            PanelLoginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(PanelLoginLayout.createSequentialGroup()
-                .addGroup(PanelLoginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(PanelLoginLayout.createSequentialGroup()
-                        .addGap(233, 233, 233)
-                        .addComponent(jLabel1))
-                    .addGroup(PanelLoginLayout.createSequentialGroup()
-                        .addGap(173, 173, 173)
-                        .addGroup(PanelLoginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel2)
-                            .addComponent(jLabel3))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(PanelLoginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jButton1)
-                            .addGroup(PanelLoginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(jPasswordField1)
-                                .addComponent(jTextField1))
-                            .addComponent(jButton2))))
-                .addContainerGap(203, Short.MAX_VALUE))
-        );
-        PanelLoginLayout.setVerticalGroup(
-            PanelLoginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(PanelLoginLayout.createSequentialGroup()
-                .addGap(64, 64, 64)
-                .addComponent(jLabel1)
-                .addGap(24, 24, 24)
-                .addGroup(PanelLoginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel2)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(PanelLoginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel3)
-                    .addComponent(jPasswordField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(28, 28, 28)
-                .addComponent(jButton1)
-                .addGap(28, 28, 28)
-                .addComponent(jButton2)
-                .addContainerGap(83, Short.MAX_VALUE))
-        );
+        tblLivros.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null}
+            },
+            new String [] {
+                "id", "Título", "ISBN", "Ano de Publicação", "Gênero"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.Long.class, java.lang.String.class, java.lang.String.class, java.lang.Integer.class, java.lang.String.class
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+        });
+        jScrollPane1.setViewportView(tblLivros);
+
+        cbFiltro.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Título", "Gênero", " " }));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(PanelLogin, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGroup(layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(238, 238, 238)
+                        .addComponent(lblLivro))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(21, 21, 21)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(btnCadastrar)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(btnEditar)
+                                .addGap(18, 18, 18)
+                                .addComponent(btnDeletar)))
+                        .addGap(18, 104, Short.MAX_VALUE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(cbFiltro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(txtBusca, javax.swing.GroupLayout.PREFERRED_SIZE, 148, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(btnBuscar)))))
+                .addGap(31, 31, 31))
+            .addComponent(jSeparator1)
+            .addComponent(jScrollPane1)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(PanelLogin, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(lblLivro)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(8, 8, 8)
+                        .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(14, 14, 14)
+                        .addComponent(btnCadastrar))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(txtBusca, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnBuscar))))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnDeletar)
+                    .addComponent(btnEditar)
+                    .addComponent(cbFiltro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 356, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ReflectiveOperationException | javax.swing.UnsupportedLookAndFeelException ex) {
-            logger.log(java.util.logging.Level.SEVERE, null, ex);
+    // Ação do botão Cadastrar: Abre a janela modal de cadastro e atualiza a tabela ao fechar
+    private void btnCadastrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCadastrarActionPerformed
+        CadastroLivroDialog telaCadastro = new CadastroLivroDialog(this, true, (LivroController) livroController);
+        telaCadastro.setVisible(true); // Bloqueia a tela de trás até que o diálogo seja fechado
+        carregarTodosLivros();// Atualiza a lista caso um novo livro tenha sido adicionado
+    }//GEN-LAST:event_btnCadastrarActionPerformed
+
+    // Ação do botão Buscar: Filtra os livros por Título ou Gênero conforme a escolha do ComboBox
+    private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
+        String termo = txtBusca.getText().trim();
+        
+        // Se o campo de busca estiver vazio, recarrega a lista completa
+        if(termo.isEmpty()){
+            carregarTodosLivros();
+            return;
         }
-        //</editor-fold>
+        
+        String filtro = cbFiltro.getSelectedItem().toString();
+        List<Livro> resultados;
+        
+        // Define qual método de busca do controller será chamado baseado no filtro selecionado
+        if (filtro.equals("Título")) {
+            resultados = livroController.findByTitulo(termo);
+        } else {
+            resultados = livroController.findByGenero(termo);
+        }
 
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(() -> new BookboxdView().setVisible(true));
+        preencherTabela(resultados);// Exibe os resultados encontrados
+        
+        if(resultados.isEmpty()){
+            JOptionPane.showMessageDialog(this,
+                "Nenhum livro encontrado para \"" + termo + "\".",
+                "Busca sem resultado",
+                JOptionPane.INFORMATION_MESSAGE
+            );
+        }
+    }//GEN-LAST:event_btnBuscarActionPerformed
+
+    // Ação do botão Deletar: Remove o livro selecionado após confirmação do usuário
+    private void btnDeletarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeletarActionPerformed
+        Livro selecionado = getLivroSelecionado();
+        if (selecionado == null) return;// Cancela se não houver linha selecionada
+        
+        // Exibe alerta de confirmação de exclusão
+        int confirmacao = JOptionPane.showConfirmDialog(this, 
+                "Tem certeza que deseja deletar o livro:\n\"" + selecionado.getTitulo() + "\"?\n\nEsta ação não pode ser desfeita.",
+                "Confirmar exclusão",
+                JOptionPane.YES_NO_OPTION,
+                JOptionPane.WARNING_MESSAGE);
+                
+        if (confirmacao == JOptionPane.YES_OPTION){
+            try {
+                livroController.delete(selecionado.getId());
+                JOptionPane.showMessageDialog(this, "Livro deletado com sucesso!",
+                        "Sucesso", JOptionPane.INFORMATION_MESSAGE);
+                carregarTodosLivros(); // Atualiza a tabela após a exclusão
+            } catch (Exception e){
+                JOptionPane.showMessageDialog(this,"Erro ao deletar: " + e.getMessage(),
+                        "Erro", JOptionPane.ERROR_MESSAGE);
+            }
+        }
+    }//GEN-LAST:event_btnDeletarActionPerformed
+    
+    // Ação do botão Editar: Abre a tela de edição populada com o livro selecionado
+    private void btnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarActionPerformed
+        Livro selecionado = getLivroSelecionado();
+        if (selecionado == null) return;// Cancela se nenhum livro estiver selecionado
+ 
+        EdicaoLivroDialog dialog = new EdicaoLivroDialog(this, (LivroController) livroController, selecionado);
+        dialog.setVisible(true);
+        carregarTodosLivros();// Atualiza os dados na tabela após fechar a edição
+
+    }//GEN-LAST:event_btnEditarActionPerformed
+    
+    // Método auxiliar: Identifica qual linha da tabela está selecionada e busca o objeto Livro correspondente
+    private Livro getLivroSelecionado() {
+        int linhaSelecionada = tblLivros.getSelectedRow();
+        DefaultTableModel modelo = (DefaultTableModel) tblLivros.getModel();
+        
+        // Valida se o usuário clicou em alguma linha
+        if (linhaSelecionada == -1) {
+            JOptionPane.showMessageDialog(
+                this,
+                "Selecione um livro na tabela primeiro.",
+                "Nenhum livro selecionado",
+                JOptionPane.WARNING_MESSAGE
+            );
+            return null;
+        }
+        // Recupera o ID (guardado de forma invisível na coluna 0) e busca no banco via controller
+        Long id = (Long) modelo.getValueAt(linhaSelecionada, 0);
+        return livroController.findById(id).orElse(null);
     }
-
+    
+    // Método auxiliar: Busca todos os registros do banco e envia para preenchimento da tabela
+    private void carregarTodosLivros() {
+        try {
+            List<Livro> livros = livroController.findAll();
+            preencherTabela(livros);
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(
+                this,
+                "Erro ao carregar livros: " + e.getMessage(),
+                "Erro",
+                JOptionPane.ERROR_MESSAGE
+            );
+        }
+    }
+    
+    // Método auxiliar: Limpa a tabela e insere as linhas com as informações da lista de livros
+    private void preencherTabela(List<Livro> livros) {
+        DefaultTableModel modelo = (DefaultTableModel) tblLivros.getModel();
+        modelo.setRowCount(0);
+       
+        // Itera sobre a lista de livros adicionando uma linha por objeto
+        for (Livro l : livros) {
+            modelo.addRow(new Object[]{
+                l.getId(),// Armazenado na coluna 0 (oculta)
+                l.getTitulo(),
+                l.getIsbn(),
+                l.getAnoPublicacao(),
+                l.getGenero()
+            });
+        }
+    } 
+ 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JPanel PanelLogin;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JPasswordField jPasswordField1;
-    private javax.swing.JTextField jTextField1;
+    private javax.swing.JButton btnBuscar;
+    private javax.swing.JButton btnCadastrar;
+    private javax.swing.JButton btnDeletar;
+    private javax.swing.JButton btnEditar;
+    private javax.swing.JComboBox<String> cbFiltro;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JSeparator jSeparator1;
+    private javax.swing.JLabel lblLivro;
+    private javax.swing.JTable tblLivros;
+    private javax.swing.JTextField txtBusca;
     // End of variables declaration//GEN-END:variables
 }

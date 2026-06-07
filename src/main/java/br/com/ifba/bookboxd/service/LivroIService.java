@@ -5,14 +5,11 @@ import java.util.List;
 import java.util.Optional;
 
 public interface LivroIService {
-    // salva um livro novo
+    // salva e atualiza um livro
     Livro save(Livro livro);
     
     // busca um livro pelo ID
     Optional<Livro> findById(Long id);
-    
-    // atualiza um livro existente
-    Livro update(Livro livro);
     
     // deleta um livro pelo ID
     void delete(Long id);

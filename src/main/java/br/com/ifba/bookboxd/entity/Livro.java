@@ -17,6 +17,7 @@ public class Livro extends PersistenceEntity {
 
     private String titulo;
     
+    //Garante que não existirão dois livros com o mesmo número de ISBN no banco
     @Column(unique = true)
     private String isbn;
 

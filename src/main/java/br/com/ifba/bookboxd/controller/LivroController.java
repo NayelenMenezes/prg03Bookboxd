@@ -7,11 +7,13 @@ import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 
-@Controller
-@RequiredArgsConstructor
-public class LivroController implements LivroIController{
+@Controller // Define esta classe como o controlador que gerencia o fluxo de dados
+@RequiredArgsConstructor //Cria o construtor automaticamente para injetar o service
+public class LivroController implements LivroIController {
     
-    private final LivroIService livroService;
+    private final LivroIService livroService; // Dependência da camada de serviço
+
+    // Todos os métodos abaixo são uma ponte entre interface gráfica e o LivroService
 
     @Override
     public Livro save(Livro livro) {
@@ -21,11 +23,6 @@ public class LivroController implements LivroIController{
     @Override
     public Optional<Livro> findById(Long id) {
         return livroService.findById(id);
-    }
-
-    @Override
-    public Livro update(Livro livro) {
-        return livroService.update(livro);
     }
 
     @Override
@@ -47,6 +44,4 @@ public class LivroController implements LivroIController{
     public List<Livro> findByGenero(String genero) {
         return livroService.findByGenero(genero);
     }
-    
-    
 }
