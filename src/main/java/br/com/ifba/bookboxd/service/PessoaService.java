@@ -1,0 +1,48 @@
+package br.com.ifba.bookboxd.service;
+
+import br.com.ifba.bookboxd.entity.Pessoa;
+import br.com.ifba.bookboxd.repository.PessoaRepository;
+import java.util.List;
+import java.util.Optional;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Service;
+
+@Slf4j
+@Service
+@RequiredArgsConstructor
+public class PessoaService implements PessoaIService{
+
+    private final PessoaRepository pessoaRepository;
+    
+    @Override
+    public Pessoa save(Pessoa pessoa) {
+        log.info("Salvando pessoa: {}", pessoa.getNome());
+        return pessoaRepository.save(pessoa);
+    }
+
+    @Override
+    public Optional<Pessoa> findById(Long id) {
+        log.info("Buscando pessoa por ID: {}", id);
+        return pessoaRepository.findById(id);
+    }
+
+    @Override
+    public void delete(Long id) {
+        log.info("Deletando pessoa com ID: {}", id);
+        pessoaRepository.deleteById(id);
+    }
+
+    @Override
+    public List<Pessoa> findAll() {
+        log.info("Listando todas as pessoas");
+        return pessoaRepository.findAll();
+    }
+
+    @Override
+    public List<Pessoa> findByNome(String nome) {
+        log.info("Buscando pessoa pelo nome: {}", nome);
+        return pessoaRepository.findByNomeContainingIgnoreCase(nome);
+    }
+    
+}

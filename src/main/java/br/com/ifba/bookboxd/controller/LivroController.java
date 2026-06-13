@@ -5,8 +5,10 @@ import br.com.ifba.bookboxd.service.LivroIService;
 import java.util.List;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 
+@Slf4j
 @Controller // Define esta classe como o controlador que gerencia o fluxo de dados
 @RequiredArgsConstructor //Cria o construtor automaticamente para injetar o service
 public class LivroController implements LivroIController {
@@ -17,31 +19,37 @@ public class LivroController implements LivroIController {
 
     @Override
     public Livro save(Livro livro) {
+        log.info("Controller: salvando livro: {}", livro.getTitulo());
         return livroService.save(livro);
     }
 
     @Override
     public Optional<Livro> findById(Long id) {
+        log.info("Controller: buscando livro por ID: {}", id);
         return livroService.findById(id);
     }
 
     @Override
     public void delete(Long id) {
+        log.info("Controller: deletando livro com ID: {}", id);
         livroService.delete(id);
     }
 
     @Override
     public List<Livro> findAll() {
+        log.info("Controller: listando todos os livros");
         return livroService.findAll();
     }
 
     @Override
     public List<Livro> findByTitulo(String titulo) {
+         log.info("Controller: buscando livros pelo titulo: {}", titulo);
         return livroService.findByTitulo(titulo);
     }
 
     @Override
     public List<Livro> findByGenero(String genero) {
+         log.info("Controller: buscando livros pelo genero: {}", genero);
         return livroService.findByGenero(genero);
     }
 }

@@ -1,13 +1,22 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package br.com.ifba.bookboxd.entity;
 
-/**
- *
- * @author mealf
- */
-public class Comentario {
+import br.com.ifba.bookboxd.infrastruture.entity.PersistenceEntity;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Table;
+import java.time.LocalDate;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+@Entity
+@Table(name = "comentarios")
+@Getter
+@Setter
+@NoArgsConstructor
+public class Comentario extends PersistenceEntity {
+    private Usuario usuario;
     
+    private Avaliacao avaliacao;
+    
+    private LocalDate dataComentario;
 }
