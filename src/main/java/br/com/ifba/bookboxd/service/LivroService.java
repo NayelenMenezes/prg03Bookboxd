@@ -1,5 +1,6 @@
 package br.com.ifba.bookboxd.service;
 
+import br.com.ifba.bookboxd.entity.Avaliacao;
 import br.com.ifba.bookboxd.entity.Livro;
 import br.com.ifba.bookboxd.repository.LivroRepository;
 import java.util.List;
@@ -51,5 +52,20 @@ public class LivroService implements LivroIService {
         log.info("Buscando livros pelo gênero: {}", genero);
         // Busca ignorando maiúsculas/minúsculas e aceitando trechos do gênero
         return livroRepository.findByGeneroContainingIgnoreCase(genero);
+    }
+
+    @Override
+    public double calcularMediaAvaliacoes(Long livroId) {
+        log.info("Calculando media das avaliações do livro iD: {}", livroId);
+        return livroRepository.findById(livroId).map(Livro::calcularMediaAvaliacao).orElse(0.0);
+    }
+
+    @Override
+    public void adicionarAvaliacao(Long livroId, Avaliacao avaliacao) {
+        log.info("Adicionanco avaloação ao livro ID: {}", livroId);
+        livroRepository.findById(livroId).ifPresent(livro -> {
+            livro.adicionarAvaliacao(avaliacao);
+            livroRepository.save(livro);
+        });
     }
 }

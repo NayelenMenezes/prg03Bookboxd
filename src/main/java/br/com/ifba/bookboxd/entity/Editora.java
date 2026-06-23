@@ -1,26 +1,39 @@
 package br.com.ifba.bookboxd.entity;
 
 import br.com.ifba.bookboxd.infrastruture.entity.PersistenceEntity;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import java.util.ArrayList;
 import java.util.List;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 
 @Entity
 @Table(name = "editoras")
 @Getter
 @Setter
 @NoArgsConstructor
+@AllArgsConstructor
+@ToString(exclude = "livros")
 public class Editora extends PersistenceEntity{
     private String nome;
     
     private String site;
     
-    private List<Livro> livros;
+    @OneToMany(mappedBy = "editora", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Livro> livros = new ArrayList<>();
+  
+   public void atualizarDadosContato(String novoSite){
+       this.site = novoSite;
+   }
     
     public void adicionarLivro(Livro livro){
         livros.add(livro);
+        livro.setEditora(this);
     }
 }

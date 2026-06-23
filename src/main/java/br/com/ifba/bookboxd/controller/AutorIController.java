@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Optional;
 
 public interface AutorIController {
-     // salva e atualiza autor
+    // salva e atualiza autor
     Autor save(Autor autor);
     
     // busca autor pelo ID

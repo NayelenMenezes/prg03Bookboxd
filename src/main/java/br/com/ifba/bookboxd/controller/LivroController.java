@@ -1,5 +1,6 @@
 package br.com.ifba.bookboxd.controller;
 
+import br.com.ifba.bookboxd.entity.Avaliacao;
 import br.com.ifba.bookboxd.entity.Livro;
 import br.com.ifba.bookboxd.service.LivroIService;
 import java.util.List;
@@ -10,7 +11,7 @@ import org.springframework.stereotype.Controller;
 
 @Slf4j
 @Controller // Define esta classe como o controlador que gerencia o fluxo de dados
-@RequiredArgsConstructor //Cria o construtor automaticamente para injetar o service
+@RequiredArgsConstructor 
 public class LivroController implements LivroIController {
     
     private final LivroIService livroService; // Dependência da camada de serviço
@@ -51,5 +52,15 @@ public class LivroController implements LivroIController {
     public List<Livro> findByGenero(String genero) {
          log.info("Controller: buscando livros pelo genero: {}", genero);
         return livroService.findByGenero(genero);
+    }
+
+    @Override
+    public double calcularMediaAvaliacoes(Long livroId) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public void adicionarAvaliacao(Long livroId, Avaliacao avaliacao) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 }

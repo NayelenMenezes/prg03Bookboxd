@@ -1,5 +1,6 @@
 package br.com.ifba.bookboxd.service;
 
+import br.com.ifba.bookboxd.entity.Avaliacao;
 import br.com.ifba.bookboxd.entity.Livro;
 import java.util.List;
 import java.util.Optional;
@@ -22,4 +23,8 @@ public interface LivroIService {
     
     // busca livros por gênero
     List<Livro> findByGenero(String genero);
+    
+    double calcularMediaAvaliacoes(Long livroId);
+    
+    void adicionarAvaliacao(Long livroId, Avaliacao avaliacao);
 }

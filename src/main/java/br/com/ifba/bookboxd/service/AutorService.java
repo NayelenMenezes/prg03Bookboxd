@@ -1,6 +1,7 @@
 package br.com.ifba.bookboxd.service;
 
 import br.com.ifba.bookboxd.entity.Autor;
+import br.com.ifba.bookboxd.entity.Livro;
 import br.com.ifba.bookboxd.repository.AutorRepository;
 import java.util.List;
 import java.util.Optional;
@@ -42,6 +43,21 @@ public class AutorService implements AutorIService{
     public List<Autor> findByNacionalide(String nacionalidade) {
         log.info("Buscando autor pela nacionalidade: {}", nacionalidade);
         return autorRepository.findByNacionalidade(nacionalidade);
+    }
+
+    @Override
+    public void adicionarLivro(Long autorId, Livro livro) {
+        log.info("Adicionando livro '{}' ao autor ID: {}", livro.getTitulo(), autorId);
+        autorRepository.findById(autorId).ifPresent(autor -> {
+            autor.adicionarLivro(livro);
+            autorRepository.save(autor);
+        });
+    }
+
+    @Override
+    public int contarLivrosPublicados(Long autorId) {
+        log.info("Contando livros publicados do autor ID: {}", autorId);
+        return autorRepository.findById(autorId).map(Autor::contarLivrosPublicados).orElse(0);
     }
     
 }

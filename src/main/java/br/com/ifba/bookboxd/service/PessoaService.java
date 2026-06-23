@@ -44,5 +44,17 @@ public class PessoaService implements PessoaIService{
         log.info("Buscando pessoa pelo nome: {}", nome);
         return pessoaRepository.findByNomeContainingIgnoreCase(nome);
     }
+
+    @Override
+    public int obterIdade(Long pessoaId) {
+        log.info("Obtendo idade da pessoa id: {}", pessoaId);
+        return pessoaRepository.findById(pessoaId).map(Pessoa::obterIdade).orElse(0);
+    }
+
+    @Override
+    public String exibirPerfil(Long pessoaId) {
+        log.info("Exibindo perfil da pessoa Id: {}", pessoaId);
+        return pessoaRepository.findById(pessoaId).map(Pessoa::exibirPerfil).orElse("Pessoa não encontrada.");    
+    }
     
 }

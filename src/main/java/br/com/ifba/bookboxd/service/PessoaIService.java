@@ -20,5 +20,8 @@ public interface PessoaIService {
     
     // busca pessoas pelo nome
     List<Pessoa> findByNome(String nome);
-   
+    
+    int obterIdade(Long pessoaId);
+    
+   String exibirPerfil(Long pessoaId);
 }

@@ -1,6 +1,7 @@
 package br.com.ifba.bookboxd.entity;
 
 import br.com.ifba.bookboxd.infrastruture.entity.PersistenceEntity;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
 import java.time.LocalDate;
@@ -23,6 +24,7 @@ public class Pessoa extends PersistenceEntity {
     
     private LocalDate dataNascimento;
     
+    @Column(columnDefinition = "TEXT")
     private String biografia;
     
     public int obterIdade(){
