@@ -29,7 +29,6 @@ public interface UsuarioIService {
     
     ListaLeitura criarListaLeitura(Long usuarioId, String nome, String descricao);
     
-    Avaliacao avaliarLivro(Long usuarioId, Livro livro, int nota,
-                                   String comentario, boolean contemSpoiler);
+    Avaliacao avaliarLivro(Long usuarioId, Livro livro, int nota,String comentario, boolean contemSpoiler);
     
 }

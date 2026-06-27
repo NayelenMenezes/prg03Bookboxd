@@ -14,7 +14,7 @@ import org.springframework.stereotype.Controller;
 @RequiredArgsConstructor 
 public class LivroController implements LivroIController {
     
-    private final LivroIService livroService; // Dependência da camada de serviço
+    private final LivroIService livroService;
 
     // Todos os métodos abaixo são uma ponte entre interface gráfica e o LivroService
 
@@ -56,11 +56,13 @@ public class LivroController implements LivroIController {
 
     @Override
     public double calcularMediaAvaliacoes(Long livroId) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        log.info("Controller: calculando media avaliacao livro id: {}", livroId);
+        return livroService.calcularMediaAvaliacoes(livroId);
     }
 
     @Override
     public void adicionarAvaliacao(Long livroId, Avaliacao avaliacao) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        log.info("Controller: adicionando avaliaco livro ID: {}", livroId);
+        livroService.adicionarAvaliacao(livroId, avaliacao);
     }
 }

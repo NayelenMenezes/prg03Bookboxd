@@ -1,7 +1,7 @@
 package br.com.ifba.bookboxd.controller;
 
 import br.com.ifba.bookboxd.entity.Pessoa;
-import br.com.ifba.bookboxd.service.PessoaService;
+import br.com.ifba.bookboxd.service.PessoaIService;
 import java.util.List;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
@@ -12,7 +12,7 @@ import org.springframework.stereotype.Controller;
 @Controller
 @RequiredArgsConstructor
 public class PessoaController implements PessoaIController{
-    private final PessoaService pessoaService;
+    private final PessoaIService pessoaService;
 
     @Override
     public Pessoa save(Pessoa pessoa) {
@@ -47,12 +47,12 @@ public class PessoaController implements PessoaIController{
     @Override
     public int obterIdade(Long pessoaId) {
         log.info("Controller: obtendo idade da pessoa Id: {}", pessoaId);
-        return pessoaService.findById(pessoaId).map(Pessoa::obterIdade).orElse(0);
+        return pessoaService.obterIdade(pessoaId);
     }
 
     @Override
     public String exibPerfil(Long pessoaId) {
         log.info("Controller: exibindo perfil pessoa ID: {}", pessoaId);
-        return pessoaService.findById(pessoaId).map(Pessoa::exibirPerfil).orElse("Pessoa não encontrada.");
+        return pessoaService.exibirPerfil(pessoaId);
     }
 }

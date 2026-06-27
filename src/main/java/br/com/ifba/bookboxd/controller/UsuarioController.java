@@ -25,42 +25,50 @@ public class UsuarioController implements UsuarioIController{
 
     @Override
     public Optional<Usuario> findById(Long id) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        log.info("Controller: buscando usuário por ID: {}", id);
+        return usuarioService.findById(id);
     }
 
     @Override
     public void delete(Long id) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        log.info("Controller: deletando usuario com ID: {}", id);
+        usuarioService.delete(id);
     }
 
     @Override
     public List<Usuario> findAll() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        log.info("Controller: listando todas os usuários");
+        return usuarioService.findAll();
     }
 
     @Override
     public Optional<Usuario> autenticar(String email, String senha) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        log.info("Controller: tentativa de autenticação para: {}", email);
+        return usuarioService.autenticar(email, senha);
     }
 
     @Override
     public boolean alterarSenha(Long usuarioId, String senhaAntiga, String novaSenha) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        log.info("Controller: alterando senha do usuário ID: {}", usuarioId);
+        return usuarioService.alterarSenha(usuarioId, senhaAntiga, novaSenha);
     }
 
     @Override
     public void editarPerfil(Long usuarioId, String nome, String bio) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        log.info("Controller: editando perfil do usuário ID: {}", usuarioId);
+        usuarioService.editarPerfil(usuarioId, nome, bio);
     }
 
     @Override
     public ListaLeitura criarListaLeitura(Long usuarioId, String nome, String descricao) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        log.info("Controller: criando lista '{}' para usuário ID: {}", nome, usuarioId);
+        return usuarioService.criarListaLeitura(usuarioId, nome, descricao);
     }
 
     @Override
     public Avaliacao avaliarLivro(Long usuarioId, Livro livro, int nota, String comentario, boolean contemSpoiler) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        log.info("Controller: usuário ID {} avaliando livro '{}'", usuarioId, livro.getTitulo());
+        return usuarioService.avaliarLivro(usuarioId, livro, nota, comentario, contemSpoiler);
     }
     
 }

@@ -2,7 +2,7 @@ package br.com.ifba.bookboxd.controller;
 
 import br.com.ifba.bookboxd.entity.Autor;
 import br.com.ifba.bookboxd.entity.Livro;
-import br.com.ifba.bookboxd.service.AutorService;
+import br.com.ifba.bookboxd.service.AutorIService;
 import java.util.List;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
@@ -13,7 +13,7 @@ import org.springframework.stereotype.Controller;
 @Controller
 @RequiredArgsConstructor
 public class AutorController implements AutorIController{
-    private final AutorService autorService;
+    private final AutorIService autorService;
     
     @Override
     public Autor save(Autor autor) {
@@ -48,16 +48,13 @@ public class AutorController implements AutorIController{
     @Override
     public void adicionarLivro(Long autorId, Livro livro) {
         log.info("Controller: adicionando livro '{}' ao autor ID: {}", livro.getTitulo(), autorId);
-        autorService.findById(autorId).ifPresent(autor -> {
-            autor.adicionarLivro(livro);
-            autorService.save(autor);
-        });
+        autorService.adicionarLivro(autorId, livro);
     }
 
     @Override
     public int contarLivrosPublicados(Long autorId) {
         log.info("Controller: contando livros do autor ID: {}", autorId);
-        return autorService.findById(autorId).map(Autor::contarLivrosPublicados).orElse(0);
+        return autorService.contarLivrosPublicados(autorId);
     }
     
 }
