@@ -117,6 +117,7 @@ public class LoginView extends javax.swing.JFrame {
 
             if(usuarioLogado.isPresent()){
                 DashboardView dashboard = new DashboardView(usuarioLogado.get(), usuarioController);
+                dashboard.setVisible(true);
                 this.dispose();
             } else {
                 JOptionPane.showMessageDialog(this, "E-mail ou senha incorretos.", "Erro de Autenticação", JOptionPane.ERROR_MESSAGE);

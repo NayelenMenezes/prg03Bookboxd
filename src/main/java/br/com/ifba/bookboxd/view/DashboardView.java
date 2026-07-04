@@ -39,23 +39,114 @@ public class DashboardView extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        lblTitulo = new javax.swing.JLabel();
+        lblBemVindo = new javax.swing.JLabel();
+        jSeparator1 = new javax.swing.JSeparator();
+        btnPerfil = new javax.swing.JButton();
+        btnLivros = new javax.swing.JButton();
+        btnAutor = new javax.swing.JButton();
+        btnEditoras = new javax.swing.JButton();
+        btnUsuarios = new javax.swing.JButton();
+        btnSair = new javax.swing.JButton();
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+
+        lblTitulo.setFont(new java.awt.Font("Serif", 0, 32)); // NOI18N
+        lblTitulo.setText("BOOKBOXD - DASHBOARD");
+
+        lblBemVindo.setFont(new java.awt.Font("Serif", 0, 18)); // NOI18N
+        lblBemVindo.setText("BEM-VINDO");
+
+        btnPerfil.setText("MEU PERFIL");
+        btnPerfil.addActionListener(this::btnPerfilActionPerformed);
+
+        btnLivros.setText("LIVROS");
+        btnLivros.addActionListener(this::btnLivrosActionPerformed);
+
+        btnAutor.setText("AUTORES");
+
+        btnEditoras.setText("EDITORAS");
+
+        btnUsuarios.setText("USUÁRIOS");
+
+        btnSair.setText("SAIR");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(0, 126, Short.MAX_VALUE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addComponent(lblTitulo)
+                                .addGap(128, 128, 128))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addComponent(lblBemVindo)
+                                .addGap(275, 275, 275))))
+                    .addComponent(jSeparator1)))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGap(34, 34, 34)
+                .addComponent(btnPerfil)
+                .addGap(41, 41, 41)
+                .addComponent(btnLivros)
+                .addGap(43, 43, 43)
+                .addComponent(btnAutor)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btnEditoras)
+                .addGap(49, 49, 49)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(btnSair)
+                    .addComponent(btnUsuarios))
+                .addGap(27, 27, 27))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(lblTitulo)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(lblBemVindo)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(152, 152, 152)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnPerfil)
+                    .addComponent(btnLivros)
+                    .addComponent(btnAutor)
+                    .addComponent(btnEditoras)
+                    .addComponent(btnUsuarios))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 132, Short.MAX_VALUE)
+                .addComponent(btnSair)
+                .addContainerGap())
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void btnPerfilActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPerfilActionPerformed
+        PerfilView perfil = new PerfilView(this, usuarioLogado, usuarioController);
+        perfil.setVisible(true);
+    }//GEN-LAST:event_btnPerfilActionPerformed
+
+    private void btnLivrosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLivrosActionPerformed
+        BookboxdView livrosView = new BookboxdView(livroController);
+        livrosView.setVisible(true);
+    }//GEN-LAST:event_btnLivrosActionPerformed
+
    
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnAutor;
+    private javax.swing.JButton btnEditoras;
+    private javax.swing.JButton btnLivros;
+    private javax.swing.JButton btnPerfil;
+    private javax.swing.JButton btnSair;
+    private javax.swing.JButton btnUsuarios;
+    private javax.swing.JSeparator jSeparator1;
+    private javax.swing.JLabel lblBemVindo;
+    private javax.swing.JLabel lblTitulo;
     // End of variables declaration//GEN-END:variables
 }
