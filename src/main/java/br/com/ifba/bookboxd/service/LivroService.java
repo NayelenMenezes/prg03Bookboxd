@@ -2,6 +2,7 @@ package br.com.ifba.bookboxd.service;
 
 import br.com.ifba.bookboxd.entity.Avaliacao;
 import br.com.ifba.bookboxd.entity.Livro;
+import br.com.ifba.bookboxd.infrastruture.util.StringUtil;
 import br.com.ifba.bookboxd.repository.LivroRepository;
 import java.util.List;
 import java.util.Optional;
@@ -9,63 +10,147 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
-@Slf4j //Injeta automaticamente o logger 'log' para registrar mensagens no console
-@Service //Define esta classe como um componente de serviço
-@RequiredArgsConstructor //Cria o construtor automaticamente para a injeção do repository
+@Slf4j 
+@Service 
+@RequiredArgsConstructor 
 public class LivroService implements LivroIService {
     
-    private final LivroRepository livroRepository; // Dependência do banco de dados
-
+    private final LivroRepository livroRepository;
+    
+    private void validarLivro(Livro livro){
+        if(livro == null){
+            throw new RuntimeException("Dados do livro não preenchidos");
+        }
+        if(StringUtil.isEmpty(livro.getTitulo())){
+            throw new RuntimeException("O título do lirvo é obrigatótio");
+        }
+        if(!StringUtil.isAnoValido(livro.getAnoPublicacao())){
+            throw new RuntimeException("Ano de publicação inválido");
+        }
+    }
+    
+    private void validarId(Long id){
+        if(!StringUtil.isIdValido(id)){
+            throw new RuntimeException("Id inválido");
+        }
+    }
+        
     @Override
     public Livro save(Livro livro) {
+        validarLivro(livro);
+        
+        if(livro.getId() != null){
+            throw new RuntimeException("Livro já existe no banco de dados");
+        }
+        
         log.info("Salvando livro: {}", livro.getTitulo());
-        return livroRepository.save(livro); // Salva o novo registro no banco
+        return livroRepository.save(livro);
     }
-
+    
+    @Override
+    public Livro update(Livro livro) {
+        validarLivro(livro);
+        validarId(livro.getId());
+        
+        if(!livroRepository.existsById(livro.getId())){
+            throw new RuntimeException("Livro não encontrado com id: " + livro.getId());
+        }
+        
+        log.info("Atualizando livro: {}", livro.getTitulo());
+        return livroRepository.save(livro);
+    }
+        
     @Override
     public Optional<Livro> findById(Long id) {
+        validarId(id);
         log.info("Buscando livro por ID: {}", id);
-        return livroRepository.findById(id); // Busca por ID retornando um Optional
+        Optional<Livro> livro = livroRepository.findById(id);
+        
+        if(livro.isEmpty()){
+            throw new RuntimeException("Livro não encontrado com id: " + id);
+        }
+        return livro;
     }
 
     @Override
     public void delete(Long id) {
+        validarId(id);
+        
+        if(!livroRepository.existsById(id)){
+            throw new RuntimeException("Livro não encontrado com id: " +id);
+        }
+        
         log.info("Deletando livro com ID: {}", id);
-        livroRepository.deleteById(id); // Remove o registro do banco através do ID
+        livroRepository.deleteById(id); 
     }
 
     @Override
     public List<Livro> findAll() {
         log.info("Listando todos os livros");
-        return livroRepository.findAll(); // Retorna todos os livros cadastrados
+        List<Livro> livros = livroRepository.findAll();
+        
+        if(livros.isEmpty()){
+            throw new RuntimeException("Nenhum livro cadastrado");
+        }
+        return livros; 
     }
 
     @Override
     public List<Livro> findByTitulo(String titulo) {
+        if(StringUtil.isEmpty(titulo)){
+            throw new RuntimeException("Titulo pra busca não pode ser vazio");
+        }
         log.info("Buscando livros pelo título: {}", titulo);
-        // Busca ignorando maiúsculas/minúsculas e aceitando trechos do nome
-        return livroRepository.findByTituloContainingIgnoreCase(titulo);
+        List<Livro> livros = livroRepository.findByTituloContainingIgnoreCase(titulo);
+        
+        if(livros.isEmpty()){
+            throw new RuntimeException("Nenhum livro encontrado com título: " + titulo);
+        }
+        return livros;
     }
-
+    
     @Override
     public List<Livro> findByGenero(String genero) {
+        if(StringUtil.isEmpty(genero)){
+            throw new RuntimeException("Gênero pra busca não pode ser vazio");
+        }
+        
         log.info("Buscando livros pelo gênero: {}", genero);
-        // Busca ignorando maiúsculas/minúsculas e aceitando trechos do gênero
-        return livroRepository.findByGeneroContainingIgnoreCase(genero);
+        List<Livro> livros = livroRepository.findByGeneroContainingIgnoreCase(genero);
+        
+        if(livros.isEmpty()){
+            throw new RuntimeException("Nenhum livro encontrado com o gênero: " + genero);
+        }
+        return livros;
     }
-
+    
+    //calcula a media das avaliações
     @Override
     public double calcularMediaAvaliacoes(Long livroId) {
+        validarId(livroId);
+        
         log.info("Calculando media das avaliações do livro iD: {}", livroId);
-        return livroRepository.findById(livroId).map(Livro::calcularMediaAvaliacao).orElse(0.0);
+        return livroRepository.findById(livroId).map(Livro::calcularMediaAvaliacao)
+                .orElseThrow(() -> new RuntimeException("Livro não encontrado com id: " + livroId));
     }
-
+    
+    //adiciona a avaliação se encontrar livro e nota tiver entre 1 e 5
     @Override
     public void adicionarAvaliacao(Long livroId, Avaliacao avaliacao) {
+        validarId(livroId);
+        
+        if(avaliacao == null){
+            throw new RuntimeException("Dados da Avaliação não preenchidos");
+        }
+        if(avaliacao.getNota() < 0 || avaliacao.getNota() > 5){
+            throw new RuntimeException("A nota da avaliação dever estar entre 0 e 5");
+        }
+        
+        Livro livro = livroRepository.findById(livroId)
+                .orElseThrow(() -> new RuntimeException("livro não encontrado com id: " + livroId));
+        
         log.info("Adicionanco avaloação ao livro ID: {}", livroId);
-        livroRepository.findById(livroId).ifPresent(livro -> {
-            livro.adicionarAvaliacao(avaliacao);
-            livroRepository.save(livro);
-        });
-    }
+        livro.adicionarAvaliacao(avaliacao);
+        livroRepository.save(livro);
+    } 
 }

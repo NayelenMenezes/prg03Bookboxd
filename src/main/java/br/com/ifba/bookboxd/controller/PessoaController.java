@@ -16,43 +16,78 @@ public class PessoaController implements PessoaIController{
 
     @Override
     public Pessoa save(Pessoa pessoa) {
-        log.info("Controller: salvando pessoa: {}", pessoa.getNome());
-        return pessoaService.save(pessoa);
+        try{
+            log.info("Controller: salvando pessoa: {}", pessoa.getNome());
+            return pessoaService.save(pessoa);
+        } catch(RuntimeException e){
+            log.error("Controller: erro ao salvar pessoa - {}", e.getMessage());
+            throw e;
+        }
     }
 
     @Override
     public Optional<Pessoa> findById(Long id) {
-        log.info("Controller: buscando pessoa por ID: {}", id);
-        return pessoaService.findById(id);
+        try{
+            log.info("Controller: buscando pessoa por ID: {}", id);
+            return pessoaService.findById(id);
+        } catch(RuntimeException e) {
+            log.error("Controller: erro ao buscar pessoa por id {} - {}", id, e.getMessage());
+            throw e;
+        } 
     }
 
     @Override
     public void delete(Long id) {
-        log.info("Controller: deletando pessoa com ID: {}", id);
-        pessoaService.delete(id);
+        try {
+            log.info("Controller: deletando pessoa com ID: {}", id);
+            pessoaService.delete(id);
+        } catch (RuntimeException e) {
+            log.error("Controller: erro ao deletar pessoa id {} - {}", id, e.getMessage());
+            throw e;
+        }
     }
 
     @Override
     public List<Pessoa> findAll() {
-        log.info("Controller: listando todas as pessoas");
-        return pessoaService.findAll();
+        try {
+            log.info("Controller: listando todas as pessoas");
+            return pessoaService.findAll();
+        } catch (RuntimeException e) {
+            log.error("Controller: erro ao listar pessoas - {}", e.getMessage());
+            throw e;
+        }
     }
 
     @Override
     public List<Pessoa> findByNome(String nome) {
-        log.info("Controller: buscando pessoas pelo nome: {}", nome);
-        return pessoaService.findByNome(nome);
+        try {
+            log.info("Controller: buscando pessoas pelo nome: {}", nome);
+            return pessoaService.findByNome(nome);
+        } catch (RuntimeException e) {
+            log.error("Controller: erro ao buscar pessoas pelo nome {} - {}", nome, e.getMessage());
+            throw e;
+        }
     }
 
     @Override
     public int obterIdade(Long pessoaId) {
-        log.info("Controller: obtendo idade da pessoa Id: {}", pessoaId);
-        return pessoaService.obterIdade(pessoaId);
+        try {
+            log.info("Controller: obtendo idade da pessoa Id: {}", pessoaId);
+            return pessoaService.obterIdade(pessoaId);
+        } catch (RuntimeException e) {
+            log.error("Controller: erro ao obter idade da pessoa id {} - {}", pessoaId, e.getMessage());
+            throw e;
+        }
     }
 
     @Override
     public String exibPerfil(Long pessoaId) {
-        log.info("Controller: exibindo perfil pessoa ID: {}", pessoaId);
-        return pessoaService.exibirPerfil(pessoaId);
+        try {
+            log.info("Controller: exibindo perfil pessoa ID: {}", pessoaId);
+            return pessoaService.exibirPerfil(pessoaId);
+        } catch (RuntimeException e) {
+            log.error("Controller: erro ao exibir perfil da pessoa id {} - {}", pessoaId, e.getMessage());
+            throw e;
+        }
     }
 }

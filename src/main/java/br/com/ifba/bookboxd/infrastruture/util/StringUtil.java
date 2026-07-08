@@ -25,4 +25,13 @@ public class StringUtil {
         if (isEmpty(email)) return false;
         return email.matches("^[\\w.-]+@[\\w.-]+\\.[a-zA-Z]{2,}$");
     }
+    
+    //ver se o id é valida
+    public static boolean isIdValido(Long id){
+        return id != null && id > 0;
+    }
+    
+    public static boolean isDataNascimentoValida(LocalDate data){
+        return data != null && !data.isAfter(LocalDate.now());
+    }
 }

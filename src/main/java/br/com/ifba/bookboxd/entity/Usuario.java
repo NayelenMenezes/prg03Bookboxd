@@ -37,15 +37,14 @@ public class Usuario extends PersistenceEntity{
     
     @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Avaliacao> avaliacoes = new ArrayList<>();
- 
+   
     @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ListaLeitura> listas = new ArrayList<>();
     
     
     //confere se a senha e o email bate com os dados do usuário
     public boolean autenticar(String email, String senha) {
-        return email != null && email.equalsIgnoreCase(this.email)
-            && senha != null && senha.equals(this.senha);
+        return this.email.equalsIgnoreCase(email) && this.senha.equals(senha);
     }
     
     //muda a senha do usuário após validar a senha antiga
@@ -74,19 +73,6 @@ public class Usuario extends PersistenceEntity{
         lista.setUsuario(this);
         this.listas.add(lista);
         return lista;
-    }
-    
-    //cria avaliacao para um livro
-    public Avaliacao avaliarLivro(Livro livro, int nota, String comentario, boolean contemSpoiler){
-        Avaliacao avaliacao = new Avaliacao();
-        avaliacao.setUsuario(this);
-        avaliacao.setLivro(livro);
-        avaliacao.setNota(nota);
-        avaliacao.setComentario(comentario);
-        avaliacao.setContemSpoiler(contemSpoiler);
-        avaliacao.setDataPublicacao(java.time.LocalDate.now());
-        this.avaliacoes.add(avaliacao);
-        return avaliacao;
     }
     
     private static final org.slf4j.Logger log =

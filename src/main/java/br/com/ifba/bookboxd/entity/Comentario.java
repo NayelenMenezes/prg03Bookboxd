@@ -24,6 +24,7 @@ public class Comentario extends PersistenceEntity {
     @Column(columnDefinition = "TEXT", nullable = false)
     private String texto;
     
+    @Column(name = "data_comentario", nullable = false)
     private LocalDate dataComentario;
     
     @ManyToOne

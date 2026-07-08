@@ -2,6 +2,7 @@ package br.com.ifba.bookboxd.service;
 
 import br.com.ifba.bookboxd.entity.Avaliacao;
 import br.com.ifba.bookboxd.entity.Comentario;
+import br.com.ifba.bookboxd.entity.Livro;
 import br.com.ifba.bookboxd.entity.Usuario;
 import java.util.List;
 import java.util.Optional;
@@ -30,4 +31,6 @@ public interface AvaliacaoIService {
     Comentario adicionarComentario(Long avaliacaoId, Usuario autor, String texto);
     
     void toggleSpoiler(Long avaliacaoId);
+    
+    Avaliacao criarAvaliacao(Usuario usuario, Livro livro, int nota, String comentario, boolean contemSpoiler);
 }

@@ -17,44 +17,90 @@ public class AutorController implements AutorIController{
     
     @Override
     public Autor save(Autor autor) {
-        log.info("Controller: salvando autor com pessoa: {}", autor.getPessoa().getNome());
-        return autorService.save(autor);
+        try {
+            log.info("Controller: salvando autor");
+            return autorService.save(autor);
+        } catch (RuntimeException e) {
+            log.error("Controller: erro ao salvar autor - {}", e.getMessage());
+            throw e;
+        }
     }
-
+    
+    @Override
+    public Autor update(Autor autor) {
+        try {
+            log.info("Controller: atualizando autor");
+            return autorService.update(autor);
+        } catch (RuntimeException e) {
+            log.error("Controller: erro ao atualizar autor - {}", e.getMessage());
+            throw e;
+        }
+    }
+    
     @Override
     public Optional<Autor> findById(Long id) {
-        log.info("Controller: buscando autor por ID: {}", id);
-        return autorService.findById(id);
+        try {
+            log.info("Controller: buscando autor por ID: {}", id);
+            return autorService.findById(id);
+        } catch (RuntimeException e) {
+            log.error("Controller: erro ao buscar autor id {} - {}", id, e.getMessage());
+            throw e;
+        }
     }
 
     @Override
     public void delete(Long id) {
-        log.info("Controller: deletando autor com ID: {}", id);
-        autorService.delete(id);
+        try {
+            log.info("Controller: deletando autor com ID: {}", id);
+            autorService.delete(id);
+        } catch (RuntimeException e) {
+            log.error("Controller: erro ao deletar autor id {} - {}", id, e.getMessage());
+            throw e;
+        }
     }
 
     @Override
     public List<Autor> findAll() {
-        log.info("Controller: listando todos os autores");
-        return autorService.findAll();
+        try {
+            log.info("Controller: listando todos os autores");
+            return autorService.findAll();
+        } catch (RuntimeException e) {
+            log.error("Controller: erro ao listar autores - {}", e.getMessage());
+            throw e;
+        }
     }
 
     @Override
     public List<Autor> findByNacionalide(String nacionalidade) {
-        log.info("Controller: buscando autores por nacionalidade: {}", nacionalidade);
-        return autorService.findByNacionalide(nacionalidade);
+        try {
+            log.info("Controller: buscando autor pela nacionalidade: {}", nacionalidade);
+            return autorService.findByNacionalide(nacionalidade);
+        } catch (RuntimeException e) {
+            log.error("Controller: erro ao buscar autor pela nacionalidade {} - {}", nacionalidade, e.getMessage());
+            throw e;
+        }
     }
 
     @Override
     public void adicionarLivro(Long autorId, Livro livro) {
-        log.info("Controller: adicionando livro '{}' ao autor ID: {}", livro.getTitulo(), autorId);
-        autorService.adicionarLivro(autorId, livro);
+        try {
+            log.info("Controller: adicionando livro ao autor ID: {}", autorId);
+            autorService.adicionarLivro(autorId, livro);
+        } catch (RuntimeException e) {
+            log.error("Controller: erro ao adicionar livro ao autor id {} - {}", autorId, e.getMessage());
+            throw e;
+        }
     }
 
     @Override
     public int contarLivrosPublicados(Long autorId) {
-        log.info("Controller: contando livros do autor ID: {}", autorId);
-        return autorService.contarLivrosPublicados(autorId);
+        try {
+            log.info("Controller: contando livros publicados do autor ID: {}", autorId);
+            return autorService.contarLivrosPublicados(autorId);
+        } catch (RuntimeException e) {
+            log.error("Controller: erro ao contar livros do autor id {} - {}", autorId, e.getMessage());
+            throw e;
+        }
     }
     
 }

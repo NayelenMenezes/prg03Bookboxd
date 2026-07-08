@@ -2,8 +2,10 @@ package br.com.ifba.bookboxd.service;
 
 import br.com.ifba.bookboxd.entity.Avaliacao;
 import br.com.ifba.bookboxd.entity.Comentario;
+import br.com.ifba.bookboxd.entity.Livro;
 import br.com.ifba.bookboxd.entity.Usuario;
 import br.com.ifba.bookboxd.repository.AvaliacaoRepository;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
@@ -80,4 +82,18 @@ public class AvaliacaoService implements AvaliacaoIService {
             avaliacaoRepository.save(avaliacao);
         });
     } 
+    
+    @Override
+    public Avaliacao criarAvaliacao(Usuario usuario, Livro livro, int nota, String comentario, boolean contemSpoiler) {
+        
+        Avaliacao avaliacao = new Avaliacao();
+        avaliacao.setUsuario(usuario);
+        avaliacao.setLivro(livro);
+        avaliacao.setNota(nota);
+        avaliacao.setComentario(comentario);
+        avaliacao.setContemSpoiler(contemSpoiler);
+        avaliacao.setDataPublicacao(LocalDate.EPOCH.now());
+
+        return avaliacaoRepository.save(avaliacao);
+    }
 }

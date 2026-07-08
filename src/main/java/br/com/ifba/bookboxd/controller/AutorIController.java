@@ -6,8 +6,11 @@ import java.util.List;
 import java.util.Optional;
 
 public interface AutorIController {
-    // salva e atualiza autor
+    // salva autor
     Autor save(Autor autor);
+    
+    // atualiza autor
+    Autor update(Autor autor);
     
     // busca autor pelo ID
     Optional<Autor> findById(Long id);

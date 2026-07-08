@@ -2,6 +2,7 @@ package br.com.ifba.bookboxd.entity;
 
 import br.com.ifba.bookboxd.infrastruture.entity.PersistenceEntity;
 import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
@@ -21,11 +22,12 @@ import lombok.ToString;
 @AllArgsConstructor
 @ToString(exclude = "livros")
 public class Editora extends PersistenceEntity{
+    @Column(nullable = false)
     private String nome;
     
     private String site;
     
-    @OneToMany(mappedBy = "editora", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "editora")
     private List<Livro> livros = new ArrayList<>();
   
    public void atualizarDadosContato(String novoSite){

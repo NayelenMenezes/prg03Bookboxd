@@ -1,8 +1,6 @@
 package br.com.ifba.bookboxd.controller;
 
-import br.com.ifba.bookboxd.entity.Avaliacao;
 import br.com.ifba.bookboxd.entity.ListaLeitura;
-import br.com.ifba.bookboxd.entity.Livro;
 import br.com.ifba.bookboxd.entity.Usuario;
 import br.com.ifba.bookboxd.service.UsuarioIService;
 import java.util.List;
@@ -19,56 +17,100 @@ public class UsuarioController implements UsuarioIController{
 
     @Override
     public Usuario save(Usuario usuario) {
-        log.info("Controller: salvando usuário: {}", usuario.getEmail());
-        return usuarioService.save(usuario);
+        try{
+            log.info("Controller: salvando usuário: {}", usuario.getEmail());
+            return usuarioService.save(usuario);
+        } catch (RuntimeException e){
+            log.error("Controller: erro ao salvar usuario - {}", e.getMessage());
+            throw e;
+        }
     }
-
+    
+    @Override
+    public Usuario update(Usuario usuario) {
+        try {
+            log.info("Controller: atualizando usuario");
+            return usuarioService.update(usuario);
+        } catch (RuntimeException e) {
+            log.error("Controller: erro ao atualizar usuario - {}", e.getMessage());
+            throw e;
+        }
+    }
+    
     @Override
     public Optional<Usuario> findById(Long id) {
-        log.info("Controller: buscando usuário por ID: {}", id);
-        return usuarioService.findById(id);
+        try {
+            log.info("Controller: buscando usuario por ID: {}", id);
+            return usuarioService.findById(id);
+        } catch (RuntimeException e) {
+            log.error("Controller: erro ao buscar usuario id {} - {}", id, e.getMessage());
+            throw e;
+        }
     }
 
     @Override
     public void delete(Long id) {
-        log.info("Controller: deletando usuario com ID: {}", id);
-        usuarioService.delete(id);
+        try {
+            log.info("Controller: deletando usuario com ID: {}", id);
+            usuarioService.delete(id);
+        } catch (RuntimeException e) {
+            log.error("Controller: erro ao deletar usuario id {} - {}", id, e.getMessage());
+            throw e;
+        }
     }
 
     @Override
     public List<Usuario> findAll() {
-        log.info("Controller: listando todas os usuários");
-        return usuarioService.findAll();
+        try {
+            log.info("Controller: listando todos os usuarios");
+            return usuarioService.findAll();
+        } catch (RuntimeException e) {
+            log.error("Controller: erro ao listar usuarios - {}", e.getMessage());
+            throw e;
+        }
     }
 
     @Override
     public Optional<Usuario> autenticar(String email, String senha) {
-        log.info("Controller: tentativa de autenticação para: {}", email);
-        return usuarioService.autenticar(email, senha);
+        try {
+            log.info("Controller: autenticando usuário: {}", email);
+            return usuarioService.autenticar(email, senha);
+        } catch (RuntimeException e) {
+            log.error("Controller: erro ao autenticar usuário {} - {}", email, e.getMessage());
+            throw e;
+        }
     }
 
     @Override
     public boolean alterarSenha(Long usuarioId, String senhaAntiga, String novaSenha) {
-        log.info("Controller: alterando senha do usuário ID: {}", usuarioId);
-        return usuarioService.alterarSenha(usuarioId, senhaAntiga, novaSenha);
+        try {
+            log.info("Controller: alterando senha do usuário ID: {}", usuarioId);
+            return usuarioService.alterarSenha(usuarioId, senhaAntiga, novaSenha);
+        } catch (RuntimeException e) {
+            log.error("Controller: erro ao alterar senha do usuário id {} - {}", usuarioId, e.getMessage());
+            throw e;
+        }
     }
 
     @Override
     public void editarPerfil(Long usuarioId, String nome, String bio) {
-        log.info("Controller: editando perfil do usuário ID: {}", usuarioId);
-        usuarioService.editarPerfil(usuarioId, nome, bio);
+        try {
+            log.info("Controller: editando perfil do usuário ID: {}", usuarioId);
+            usuarioService.editarPerfil(usuarioId, nome, bio);
+        } catch (RuntimeException e) {
+            log.error("Controller: erro ao editar perfil do usuário id {} - {}", usuarioId, e.getMessage());
+            throw e;
+        }
     }
 
     @Override
     public ListaLeitura criarListaLeitura(Long usuarioId, String nome, String descricao) {
-        log.info("Controller: criando lista '{}' para usuário ID: {}", nome, usuarioId);
-        return usuarioService.criarListaLeitura(usuarioId, nome, descricao);
+        try {
+            log.info("Controller: criando lista de leitura para usuário ID: {}", usuarioId);
+            return usuarioService.criarListaLeitura(usuarioId, nome, descricao);
+        } catch (RuntimeException e) {
+            log.error("Controller: erro ao criar lista de leitura para usuário id {} - {}", usuarioId, e.getMessage());
+            throw e;
+        }
     }
-
-    @Override
-    public Avaliacao avaliarLivro(Long usuarioId, Livro livro, int nota, String comentario, boolean contemSpoiler) {
-        log.info("Controller: usuário ID {} avaliando livro '{}'", usuarioId, livro.getTitulo());
-        return usuarioService.avaliarLivro(usuarioId, livro, nota, comentario, contemSpoiler);
-    }
-    
 }

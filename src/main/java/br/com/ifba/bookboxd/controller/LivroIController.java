@@ -10,6 +10,9 @@ public interface LivroIController {
     // salva e atualiza um livro novo
     Livro save(Livro livro);
     
+    // atualiza um livro novo
+    Livro update(Livro livro);
+    
     // busca um livro pelo ID
     Optional<Livro> findById(Long id);
     

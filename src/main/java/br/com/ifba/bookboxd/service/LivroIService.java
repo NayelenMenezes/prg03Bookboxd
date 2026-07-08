@@ -6,8 +6,11 @@ import java.util.List;
 import java.util.Optional;
 
 public interface LivroIService {
-    // salva e atualiza um livro
+    // salva um livro
     Livro save(Livro livro);
+    
+    //atualiza um livro
+    Livro update(Livro livro);
     
     // busca um livro pelo ID
     Optional<Livro> findById(Long id);

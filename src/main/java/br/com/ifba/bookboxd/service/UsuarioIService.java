@@ -1,16 +1,18 @@
 package br.com.ifba.bookboxd.service;
 
-import br.com.ifba.bookboxd.entity.Avaliacao;
+
 import br.com.ifba.bookboxd.entity.ListaLeitura;
-import br.com.ifba.bookboxd.entity.Livro;
 import br.com.ifba.bookboxd.entity.Usuario;
 import java.util.List;
 import java.util.Optional;
 
 
 public interface UsuarioIService {
-    // salva e atualiza usuario
+    // salva usuario
     Usuario save(Usuario usuario);
+    
+    //atualiza usuario
+    Usuario update(Usuario usuario);
     
     // busca usuario pelo ID
     Optional<Usuario> findById(Long id);
@@ -29,6 +31,5 @@ public interface UsuarioIService {
     
     ListaLeitura criarListaLeitura(Long usuarioId, String nome, String descricao);
     
-    Avaliacao avaliarLivro(Long usuarioId, Livro livro, int nota,String comentario, boolean contemSpoiler);
     
 }

@@ -21,20 +21,22 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 public class Livro extends PersistenceEntity {
-
+    @Column(nullable = false)
     private String titulo;
     
     @Column(unique = true)
     private String isbn;
-
+    
+    @Column(name = "ano_publicacao", nullable = false)
     private int anoPublicacao;
-
+    
+    @Column(columnDefinition = "TEXT")
     private String sinopse;
-
+    
     private String genero;
     
     @ManyToOne
-    @JoinColumn(name = "autor_id")
+    @JoinColumn(name = "autor_id", nullable = false)
     private Autor autor;
     
     @ManyToOne
