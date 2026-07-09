@@ -4,11 +4,11 @@
  */
 package br.com.ifba.bookboxd.view;
 
-import br.com.ifba.bookboxd.controller.AutorController;
-import br.com.ifba.bookboxd.controller.EditoraController;
-import br.com.ifba.bookboxd.controller.LivroController;
-import br.com.ifba.bookboxd.controller.UsuarioController;
-import br.com.ifba.bookboxd.entity.Usuario;
+import br.com.ifba.bookboxd.autor.controller.AutorController;
+import br.com.ifba.bookboxd.editora.contoller.EditoraController;
+import br.com.ifba.bookboxd.livro.controller.LivroController;
+import br.com.ifba.bookboxd.usuario.controller.UsuarioController;
+import br.com.ifba.bookboxd.usuario.entity.Usuario;
 import br.com.ifba.bookboxd.infrastruture.util.SpringContextHolder;
 
 public class DashboardView extends javax.swing.JFrame {

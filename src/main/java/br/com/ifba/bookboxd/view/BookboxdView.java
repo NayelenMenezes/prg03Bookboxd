@@ -1,8 +1,8 @@
 package br.com.ifba.bookboxd.view;
 
-import br.com.ifba.bookboxd.controller.LivroController;
-import br.com.ifba.bookboxd.controller.LivroIController;
-import br.com.ifba.bookboxd.entity.Livro;
+import br.com.ifba.bookboxd.livro.controller.LivroController;
+import br.com.ifba.bookboxd.livro.controller.LivroIController;
+import br.com.ifba.bookboxd.livro.entity.Livro;
 import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;

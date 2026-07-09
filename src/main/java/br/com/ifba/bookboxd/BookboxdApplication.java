@@ -1,6 +1,6 @@
 package br.com.ifba.bookboxd;
 
-import br.com.ifba.bookboxd.controller.UsuarioController;
+import br.com.ifba.bookboxd.usuario.controller.UsuarioController;
 import br.com.ifba.bookboxd.view.LoginView;
 import javax.swing.SwingUtilities;
 import org.springframework.boot.SpringApplication;

@@ -1,9 +1,9 @@
 package br.com.ifba.bookboxd.view;
 
-import br.com.ifba.bookboxd.controller.AvaliacaoController;
-import br.com.ifba.bookboxd.controller.ListaLeituraController;
-import br.com.ifba.bookboxd.controller.UsuarioController;
-import br.com.ifba.bookboxd.entity.Usuario;
+import br.com.ifba.bookboxd.avaliacao.controller.AvaliacaoController;
+import br.com.ifba.bookboxd.listaleitura.controller.ListaLeituraController;
+import br.com.ifba.bookboxd.usuario.controller.UsuarioController;
+import br.com.ifba.bookboxd.usuario.entity.Usuario;
 import br.com.ifba.bookboxd.infrastruture.util.SpringContextHolder;
 
 

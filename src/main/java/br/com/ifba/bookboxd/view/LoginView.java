@@ -1,7 +1,7 @@
 package br.com.ifba.bookboxd.view;
 
-import br.com.ifba.bookboxd.controller.UsuarioController;
-import br.com.ifba.bookboxd.entity.Usuario;
+import br.com.ifba.bookboxd.usuario.controller.UsuarioController;
+import br.com.ifba.bookboxd.usuario.entity.Usuario;
 import java.util.Optional;
 import javax.swing.JOptionPane;
 import org.springframework.beans.factory.annotation.Autowired;

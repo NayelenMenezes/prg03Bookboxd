@@ -1,7 +1,7 @@
 package br.com.ifba.bookboxd.view;
 
-import br.com.ifba.bookboxd.controller.LivroController;
-import br.com.ifba.bookboxd.entity.Livro;
+import br.com.ifba.bookboxd.livro.controller.LivroController;
+import br.com.ifba.bookboxd.livro.entity.Livro;
 import javax.swing.JOptionPane;
 
 public class CadastroLivroDialog extends javax.swing.JDialog {

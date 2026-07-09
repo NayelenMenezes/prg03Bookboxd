@@ -4,12 +4,12 @@
  */
 package br.com.ifba.bookboxd.view;
 
-import br.com.ifba.bookboxd.controller.AutorController;
-import br.com.ifba.bookboxd.controller.PessoaController;
-import br.com.ifba.bookboxd.controller.UsuarioController;
-import br.com.ifba.bookboxd.entity.Autor;
-import br.com.ifba.bookboxd.entity.Pessoa;
-import br.com.ifba.bookboxd.entity.Usuario;
+import br.com.ifba.bookboxd.autor.controller.AutorController;
+import br.com.ifba.bookboxd.pessoa.controller.PessoaController;
+import br.com.ifba.bookboxd.usuario.controller.UsuarioController;
+import br.com.ifba.bookboxd.autor.entity.Autor;
+import br.com.ifba.bookboxd.pessoa.entity.Pessoa;
+import br.com.ifba.bookboxd.usuario.entity.Usuario;
 import br.com.ifba.bookboxd.infrastruture.util.SpringContextHolder;
 import br.com.ifba.bookboxd.infrastruture.util.StringUtil;
 import java.time.LocalDate;
