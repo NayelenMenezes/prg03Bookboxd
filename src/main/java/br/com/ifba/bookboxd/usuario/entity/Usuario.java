@@ -4,6 +4,7 @@ import br.com.ifba.bookboxd.pessoa.entity.Pessoa;
 import br.com.ifba.bookboxd.listaleitra.entity.ListaLeitura;
 import br.com.ifba.bookboxd.avaliacao.entity.Avaliacao;
 import br.com.ifba.bookboxd.infrastruture.entity.PersistenceEntity;
+import br.com.ifba.bookboxd.livro.entity.Livro;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -76,6 +77,17 @@ public class Usuario extends PersistenceEntity{
         lista.setUsuario(this);
         this.listas.add(lista);
         return lista;
+    }
+    
+    public Avaliacao criarAvaliacao(Livro livro, int nota, String texto, boolean contemSpoiler) {
+        Avaliacao avaliacao = new Avaliacao();
+        avaliacao.setUsuario(this);
+        avaliacao.setLivro(livro);
+        avaliacao.setNota(nota);
+        avaliacao.setAvaliacao(texto);
+        avaliacao.setContemSpoiler(contemSpoiler);
+        avaliacao.setDataPublicacao(LocalDate.now());
+        return avaliacao;
     }
     
     private static final org.slf4j.Logger log =

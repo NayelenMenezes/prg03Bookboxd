@@ -16,44 +16,89 @@ public class ComentarioController implements ComentarioIController{
     
     @Override
     public Comentario save(Comentario comentario) {
-        log.info("Controller: salvando comentário");
-        return comentarioService.save(comentario);
+        try {
+            log.info("Controller: salvando comentário");
+            return comentarioService.save(comentario);
+        } catch (RuntimeException e) {
+            log.error("Controller: erro ao salvar comentário - {}", e.getMessage());
+            throw e;
+        }
+    }
+
+    @Override
+    public Comentario update(Comentario comentario) {
+        try {
+            log.info("Controller: atualizando comentário");
+            return comentarioService.update(comentario);
+        } catch (RuntimeException e) {
+            log.error("Controller: erro ao atualizar comentário - {}", e.getMessage());
+            throw e;
+        }
     }
 
     @Override
     public Optional<Comentario> findById(Long id) {
-        log.info("Controller: buscando comentário por ID: {}", id);
-        return comentarioService.findById(id);
+        try {
+            log.info("Controller: buscando comentário por ID: {}", id);
+            return comentarioService.findById(id);
+        } catch (RuntimeException e) {
+            log.error("Controller: erro ao buscar comentário id {} - {}", id, e.getMessage());
+            throw e;
+        }
     }
 
     @Override
     public void delete(Long id) {
-        log.info("Controller: deletando comentário ID: {}", id);
-        comentarioService.delete(id);
+        try {
+            log.info("Controller: deletando comentário com ID: {}", id);
+            comentarioService.delete(id);
+        } catch (RuntimeException e) {
+            log.error("Controller: erro ao deletar comentário id {} - {}", id, e.getMessage());
+            throw e;
+        }
     }
 
     @Override
     public List<Comentario> findAll() {
-        log.info("Controller: listando todos os comentários");
-        return comentarioService.findAll();
+        try {
+            log.info("Controller: listando todos os comentários");
+            return comentarioService.findAll();
+        } catch (RuntimeException e) {
+            log.error("Controller: erro ao listar comentários - {}", e.getMessage());
+            throw e;
+        }
     }
 
     @Override
     public List<Comentario> findByAvaliacaoId(Long avaliacaoId) {
-        log.info("Controller: buscando comentários da avaliação ID: {}", avaliacaoId);
-        return comentarioService.findByAvaliacaoId(avaliacaoId);
+        try {
+            log.info("Controller: buscando comentários da avaliação ID: {}", avaliacaoId);
+            return comentarioService.findByAvaliacaoId(avaliacaoId);
+        } catch (RuntimeException e) {
+            log.error("Controller: erro ao buscar comentários da avaliação id {} - {}", avaliacaoId, e.getMessage());
+            throw e;
+        }
     }
 
     @Override
     public List<Comentario> findByUsuarioId(Long usuarioId) {
-        log.info("Controller: buscando comentários do usuário ID: {}", usuarioId);
-        return comentarioService.findByUsuarioId(usuarioId);
+        try {
+            log.info("Controller: buscando comentários do usuário ID: {}", usuarioId);
+            return comentarioService.findByUsuarioId(usuarioId);
+        } catch (RuntimeException e) {
+            log.error("Controller: erro ao buscar comentários do usuário id {} - {}", usuarioId, e.getMessage());
+            throw e;
+        }
     }
 
     @Override
-    public boolean editarTexto(Long comentarioId, String novoTexto) {
-        log.info("Controller: editando texto do comentário ID: {}", comentarioId);
-        return comentarioService.editarTexto(comentarioId, novoTexto);
+    public void editarTexto(Long comentarioId, String novoTexto) {
+        try {
+            log.info("Controller: editando texto do comentário ID: {}", comentarioId);
+            comentarioService.editarTexto(comentarioId, novoTexto);
+        } catch (RuntimeException e) {
+            log.error("Controller: erro ao editar texto do comentário id {} - {}", comentarioId, e.getMessage());
+            throw e;
+        }
     }
-    
 }

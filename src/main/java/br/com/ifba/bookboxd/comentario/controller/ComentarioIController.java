@@ -5,8 +5,11 @@ import java.util.List;
 import java.util.Optional;
 
 public interface ComentarioIController {
-    // salva e atualiza comentario
+    // salva comentario
     Comentario save(Comentario comentario);
+    
+    // Atualiza comentario
+    Comentario update(Comentario comentario);
     
     // busca um comentario pelo ID
     Optional<Comentario> findById(Long id);
@@ -14,12 +17,12 @@ public interface ComentarioIController {
     // deleta um comentario pelo ID
     void delete(Long id);
     
-    // retorna todas comentario cadastrados
+    // retorna todas comentario
     List<Comentario> findAll();
     
    List<Comentario> findByAvaliacaoId(Long avaliacaoId);
    
    List<Comentario> findByUsuarioId(Long usuarioId);
    
-   boolean editarTexto(Long comentarioId, String novoTexto);
+   void editarTexto(Long comentarioId, String novoTexto);
 }

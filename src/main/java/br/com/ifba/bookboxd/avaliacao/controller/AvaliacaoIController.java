@@ -11,6 +11,9 @@ public interface AvaliacaoIController {
     // salva e atualiza avaliacao
     Avaliacao save(Avaliacao avaliacao);
     
+    // atualiza avaliacao
+    Avaliacao update(Avaliacao avaliacao);
+    
     // busca uma avaliacao pelo ID
     Optional<Avaliacao> findById(Long id);
     
@@ -27,8 +30,10 @@ public interface AvaliacaoIController {
     List<Avaliacao> findByUsuarioId(Long usuarioId);
     
     void editarTexto(Long avaliacaoId, String novoTexto);
-    
-    Comentario adicionarComentario(Long avaliacaoId, Usuario autor, String texto);
+  
+    Comentario adicionarComentario(Long avaliacaoId, Long autorId, String texto);
     
     void toggleSpoiler(Long avaliacaoId);
+    
+    Avaliacao criarAvaliacao(Long usuarioId, Long livroId, int nota, String texto, boolean contemSpoiler);
 }

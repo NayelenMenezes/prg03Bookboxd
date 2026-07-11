@@ -37,10 +37,6 @@ public class Comentario extends PersistenceEntity {
     @JoinColumn(name = "avaliacao_id", nullable = false)
     private Avaliacao avaliacao;
     
-    public boolean validarConteudo() {
-        return texto != null && !texto.isBlank();
-    }
-    
     public void editarTexto(String novoTexto) {
         this.texto = novoTexto;
     }

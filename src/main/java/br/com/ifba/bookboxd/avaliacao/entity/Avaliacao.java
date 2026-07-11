@@ -32,7 +32,7 @@ public class Avaliacao extends PersistenceEntity {
     private int nota;
     
     @Column(columnDefinition = "TEXT")
-    private String comentario;
+    private String avaliacao;
     
     private LocalDate dataPublicacao;
     
@@ -50,7 +50,7 @@ public class Avaliacao extends PersistenceEntity {
     private List<Comentario> comentarios = new ArrayList<>();
     
     public void editarTexto(String novoTexo){
-        this.comentario = novoTexo;
+        this.avaliacao = novoTexo;
     }
     
     public Comentario adicionarComentario(Usuario autor, String texto){

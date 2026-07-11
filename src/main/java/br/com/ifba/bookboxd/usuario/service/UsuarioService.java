@@ -33,7 +33,7 @@ public class UsuarioService implements UsuarioIService {
     }
     
     private void validarId(Long id){
-        if(StringUtil.isIdValido(id)){
+        if(!StringUtil.isIdValido(id)){
             throw new RuntimeException("id inválido");
         }
     }

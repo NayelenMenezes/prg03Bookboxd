@@ -20,13 +20,13 @@ import lombok.ToString;
 @AllArgsConstructor
 @ToString
 public class Pessoa extends PersistenceEntity {
-    @Column(name = "nome", nullable = false)
+    @Column(nullable = false)
     private String nome;
     
     @Column(name = "data_nascimento", nullable = false)
     private LocalDate dataNascimento;
     
-    @Column(name= "biografia", columnDefinition = "TEXT")
+    @Column(columnDefinition = "TEXT")
     private String biografia;
     
     public int obterIdade(){
