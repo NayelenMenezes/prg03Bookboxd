@@ -1,41 +1,34 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JDialog.java to edit this template
- */
 package br.com.ifba.bookboxd.view;
 
-import br.com.ifba.bookboxd.autor.controller.AutorController;
 import br.com.ifba.bookboxd.pessoa.controller.PessoaController;
 import br.com.ifba.bookboxd.usuario.controller.UsuarioController;
-import br.com.ifba.bookboxd.autor.entity.Autor;
 import br.com.ifba.bookboxd.pessoa.entity.Pessoa;
 import br.com.ifba.bookboxd.usuario.entity.Usuario;
-import br.com.ifba.bookboxd.infrastruture.util.SpringContextHolder;
 import br.com.ifba.bookboxd.infrastruture.util.StringUtil;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import javax.swing.JOptionPane;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
-/**
- *
- * @author mealf
- */
+@Component
 public class CadastroUsuarioView extends javax.swing.JDialog {
     
     private final UsuarioController usuarioController;
     private final PessoaController  pessoaController;
-    private final AutorController   autorController;
+    private java.awt.Frame telaAnterior;
+    
+    @Autowired
+    public CadastroUsuarioView(UsuarioController usuarioController, PessoaController pessoaController) {
+        super();
+        setModal(true);
+        setTitle("Cadastro");
 
-    public CadastroUsuarioView(java.awt.Frame parent, UsuarioController usuarioController) {
-        super(parent, "Cadastro", true);
         this.usuarioController = usuarioController;
-        this.pessoaController = SpringContextHolder.getBean(PessoaController.class);
-        this.autorController = SpringContextHolder.getBean(AutorController.class);
-        
+        this.pessoaController = pessoaController;
+
         initComponents();
-        setLocationRelativeTo(parent);
-        atualizarCamposAutor();
     }
 
     /**
@@ -47,20 +40,13 @@ public class CadastroUsuarioView extends javax.swing.JDialog {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        buttonGroup1 = new javax.swing.ButtonGroup();
-        buttonGroup2 = new javax.swing.ButtonGroup();
-        buttonGroup3 = new javax.swing.ButtonGroup();
         lblTitulo = new javax.swing.JLabel();
         txtEmail = new javax.swing.JTextField();
         lblNome = new javax.swing.JLabel();
         jSeparator1 = new javax.swing.JSeparator();
         lblEmail = new javax.swing.JLabel();
         lblSenha = new javax.swing.JLabel();
-        lblNacionalidade = new javax.swing.JLabel();
-        lblEscolha = new javax.swing.JLabel();
         txtNome = new javax.swing.JTextField();
-        txtNacionalidade = new javax.swing.JTextField();
-        cbTipoUsuario = new javax.swing.JComboBox<>();
         btnCadastrar = new javax.swing.JButton();
         btnCancelar = new javax.swing.JButton();
         lblDataNascimento = new javax.swing.JLabel();
@@ -78,12 +64,6 @@ public class CadastroUsuarioView extends javax.swing.JDialog {
 
         lblSenha.setText("SENHA");
 
-        lblNacionalidade.setText("NACIONALIDADE");
-
-        lblEscolha.setText("SOU UM:");
-
-        cbTipoUsuario.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "LEITOR COMUM", "AUTOR" }));
-
         btnCadastrar.setText("CADASTRAR");
         btnCadastrar.addActionListener(this::btnCadastrarActionPerformed);
 
@@ -92,56 +72,40 @@ public class CadastroUsuarioView extends javax.swing.JDialog {
 
         lblDataNascimento.setText("DATA DE NASCIMENTO");
 
-        txtDataNascimento.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter(java.text.DateFormat.getDateInstance(java.text.DateFormat.SHORT))));
-
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jSeparator1, javax.swing.GroupLayout.Alignment.TRAILING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(240, 240, 240)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(btnCadastrar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btnCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
                         .addGap(157, 157, 157)
-                        .addComponent(lblTitulo)
-                        .addGap(0, 13, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(lblTitulo))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(83, 83, 83)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(lblNacionalidade)
                                     .addComponent(lblDataNascimento)
                                     .addComponent(lblSenha)
                                     .addComponent(lblEmail))
+                                .addGap(70, 70, 70)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addGap(70, 70, 70)
-                                        .addComponent(txtNacionalidade, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(txtEmail, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(txtSenha, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                                    .addComponent(txtEmail, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(txtSenha, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)))
                             .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                                 .addGap(93, 93, 93)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addComponent(lblEscolha)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(cbTipoUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addComponent(lblNome)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(txtNome, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                            .addComponent(txtDataNascimento, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addGap(164, 164, 164))
+                                .addComponent(lblNome)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(txtNome, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(txtDataNascimento, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(251, 251, 251)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(btnCadastrar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(btnCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addContainerGap(165, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -150,11 +114,7 @@ public class CadastroUsuarioView extends javax.swing.JDialog {
                 .addComponent(lblTitulo)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 10, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(cbTipoUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lblEscolha))
-                .addGap(27, 27, 27)
+                .addGap(32, 32, 32)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtNome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(lblNome))
@@ -170,27 +130,27 @@ public class CadastroUsuarioView extends javax.swing.JDialog {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(txtDataNascimento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(lblDataNascimento))
-                .addGap(21, 21, 21)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(lblNacionalidade)
-                        .addGap(40, 40, 40)
-                        .addComponent(btnCadastrar)
-                        .addGap(18, 18, 18)
-                        .addComponent(btnCancelar))
-                    .addComponent(txtNacionalidade, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(22, 22, 22))
+                .addGap(54, 54, 54)
+                .addComponent(btnCadastrar)
+                .addGap(18, 18, 18)
+                .addComponent(btnCancelar)
+                .addContainerGap(72, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
     
-    private void atualizarCamposAutor(){
-        String tipoSelecionado = String.valueOf(cbTipoUsuario.getSelectedItem());
-        boolean isAutor = tipoSelecionado.equalsIgnoreCase("AUTOR");
-        lblNacionalidade.setVisible(isAutor);
-        txtNacionalidade.setVisible(isAutor);
-        pack();
+    public void prepararParaNovoCadastro(java.awt.Frame telaAnterior){
+        this.telaAnterior = telaAnterior;
+        limparCampos();
+        setLocationRelativeTo(telaAnterior);
+    }
+    
+    private void limparCampos(){
+        txtNome.setText("");
+        txtEmail.setText("");
+        txtSenha.setText("");
+        txtDataNascimento.setText("");
     }
     
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
@@ -198,30 +158,22 @@ public class CadastroUsuarioView extends javax.swing.JDialog {
     }//GEN-LAST:event_btnCancelarActionPerformed
 
     private void btnCadastrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCadastrarActionPerformed
-        String tipoUsuario = String.valueOf(cbTipoUsuario.getSelectedItem());
-        
         if (StringUtil.isEmpty(txtNome.getText())){
             JOptionPane.showMessageDialog(this, "Nome é obrigatório.", "Campo obrigatório",
                     JOptionPane.WARNING_MESSAGE);
             txtNome.requestFocus();
             return;
         }
-        if (StringUtil.isEmpty(txtEmail.getText())){
-            JOptionPane.showMessageDialog(this, "Email é obrigatório.", "Campo obrigatório",
+        if (!StringUtil.isEmailValido(txtEmail.getText().trim())){
+            JOptionPane.showMessageDialog(this, "Informe um email válido.", "Campo inválido",
                     JOptionPane.WARNING_MESSAGE);
             txtEmail.requestFocus();
             return;
         }
-        if (txtSenha.getPassword().length == 0){
-            JOptionPane.showMessageDialog(this, "Senha é obrigatório.", "Campo obrigatório",
+        if (txtSenha.getPassword().length == 0) {
+            JOptionPane.showMessageDialog(this, "Senha é obrigatória.", "Campo obrigatório",
                     JOptionPane.WARNING_MESSAGE);
             txtSenha.requestFocus();
-            return;
-        }
-        if (tipoUsuario.equalsIgnoreCase("autor") && StringUtil.isEmpty(txtNacionalidade.getText())){
-            JOptionPane.showMessageDialog(this, "Nacionalidade é obrigatório para Autor.", "Campo obrigatório",
-                    JOptionPane.WARNING_MESSAGE);
-            txtNacionalidade.requestFocus();
             return;
         }
         
@@ -230,8 +182,8 @@ public class CadastroUsuarioView extends javax.swing.JDialog {
             dataNascimento = LocalDate.parse(txtDataNascimento.getText().trim(), DateTimeFormatter.ofPattern("dd/MM/yyyy"));
         } catch (DateTimeParseException e) {
             JOptionPane.showMessageDialog(this,
-                "Data inválida. Use o formato dd/MM/yyyy.", "Valor inválido", JOptionPane.WARNING_MESSAGE);
-            txtDataNascimento.requestFocus(); 
+                    "Data inválida. Use o formato dd/MM/yyyy.", "Valor inválido", JOptionPane.WARNING_MESSAGE);
+            txtDataNascimento.requestFocus();
             return;
         }
         
@@ -248,19 +200,14 @@ public class CadastroUsuarioView extends javax.swing.JDialog {
             usuario.setDataCadastro(LocalDate.now());
             usuarioController.save(usuario);
             
-            if(tipoUsuario.equalsIgnoreCase("autor")){
-                Autor autor = new Autor();
-                autor.setPessoa(pessoaSalva);
-                autor.setNacionalidade(txtNacionalidade.getText().trim());
-                autorController.save(autor);
-            }
-            
             JOptionPane.showMessageDialog(this, "Conta criada com sucesso! Faça login para continuar.",
-                "Sucesso", JOptionPane.INFORMATION_MESSAGE);
+                    "Sucesso", JOptionPane.INFORMATION_MESSAGE);
             dispose();
+        } catch (RuntimeException e) {
+            JOptionPane.showMessageDialog(this, e.getMessage(), "Erro ao criar conta", JOptionPane.ERROR_MESSAGE);
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, "Erro ao criar conta: " + e.getMessage(),
-                "Erro", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Erro inesperado: " + e.getMessage(),
+                    "Erro", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_btnCadastrarActionPerformed
 
@@ -269,21 +216,14 @@ public class CadastroUsuarioView extends javax.swing.JDialog {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCadastrar;
     private javax.swing.JButton btnCancelar;
-    private javax.swing.ButtonGroup buttonGroup1;
-    private javax.swing.ButtonGroup buttonGroup2;
-    private javax.swing.ButtonGroup buttonGroup3;
-    private javax.swing.JComboBox<String> cbTipoUsuario;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JLabel lblDataNascimento;
     private javax.swing.JLabel lblEmail;
-    private javax.swing.JLabel lblEscolha;
-    private javax.swing.JLabel lblNacionalidade;
     private javax.swing.JLabel lblNome;
     private javax.swing.JLabel lblSenha;
     private javax.swing.JLabel lblTitulo;
     private javax.swing.JFormattedTextField txtDataNascimento;
     private javax.swing.JTextField txtEmail;
-    private javax.swing.JTextField txtNacionalidade;
     private javax.swing.JTextField txtNome;
     private javax.swing.JPasswordField txtSenha;
     // End of variables declaration//GEN-END:variables

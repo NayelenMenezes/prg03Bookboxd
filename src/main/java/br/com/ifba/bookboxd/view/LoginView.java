@@ -1,5 +1,7 @@
 package br.com.ifba.bookboxd.view;
 
+import br.com.ifba.bookboxd.infrastruture.util.SpringContextHolder;
+import br.com.ifba.bookboxd.infrastruture.util.StringUtil;
 import br.com.ifba.bookboxd.usuario.controller.UsuarioController;
 import br.com.ifba.bookboxd.usuario.entity.Usuario;
 import java.util.Optional;
@@ -106,29 +108,29 @@ public class LoginView extends javax.swing.JFrame {
         String email = txtEmail.getText().trim();
         String senha = new String(txtSenha.getPassword()).trim();
         
-        if(email.isEmpty() || senha.isEmpty()){
+        if(StringUtil.isEmpty(email) || StringUtil.isEmpty(senha)){
             JOptionPane.showMessageDialog(this, "Preencha e-mail e senha para continuar",
-                                    "Campos obrigatórios", JOptionPane.WARNING_MESSAGE);
+                    "Campos obrigatórios", JOptionPane.WARNING_MESSAGE);
             return;
         }
         
         try{
             Optional<Usuario> usuarioLogado = usuarioController.autenticar(email, senha);
 
-            if(usuarioLogado.isPresent()){
-                DashboardView dashboard = new DashboardView(usuarioLogado.get(), usuarioController);
-                dashboard.setVisible(true);
-                this.dispose();
-            } else {
-                JOptionPane.showMessageDialog(this, "E-mail ou senha incorretos.", "Erro de Autenticação", JOptionPane.ERROR_MESSAGE);
-            }
+            DashboardView dashboard = SpringContextHolder.getBean(DashboardView.class);
+            dashboard.configurarUsuarioLogado(usuarioLogado.get());
+            dashboard.setVisible(true);
+            this.dispose();
+        } catch (RuntimeException e) {
+            JOptionPane.showMessageDialog(this, e.getMessage(), "Erro de Autenticação", JOptionPane.ERROR_MESSAGE);
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, "Erro ao conectar ao servidor: " + e.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_btnEntrarActionPerformed
 
     private void btnCadastrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCadastrarActionPerformed
-        CadastroUsuarioView telaCadastro = new CadastroUsuarioView(this,this.usuarioController);
+        CadastroUsuarioView telaCadastro = SpringContextHolder.getBean(CadastroUsuarioView.class);
+        telaCadastro.prepararParaNovoCadastro(this);
         telaCadastro.setVisible(true);
         
         txtEmail.setText("");

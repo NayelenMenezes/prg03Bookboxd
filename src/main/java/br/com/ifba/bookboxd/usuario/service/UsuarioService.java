@@ -17,17 +17,17 @@ import org.springframework.stereotype.Service;
 public class UsuarioService implements UsuarioIService {
     private final UsuarioRepository usuarioRepository;
     
-    private void validarUsuario(Usuario usuario){
-        if(usuario == null){
+    private void validarUsuario(Usuario usuario) {
+        if (usuario == null) {
             throw new RuntimeException("Dados do Usuario não preenchidos");
         }
-        if(usuario.getPessoa() == null){
+        if (usuario.getPessoa() == null) {
             throw new RuntimeException("O Usuario precisa estar vinculado a uma Pessoa");
         }
-        if(StringUtil.isEmailValido(usuario.getEmail())){
+        if (!StringUtil.isEmailValido(usuario.getEmail())) {
             throw new RuntimeException("Email inválido");
         }
-        if(StringUtil.isEmpty(usuario.getSenha())){
+        if (StringUtil.isEmpty(usuario.getSenha())) {
             throw new RuntimeException("A senha do Usuario é obrigatória");
         }
     }

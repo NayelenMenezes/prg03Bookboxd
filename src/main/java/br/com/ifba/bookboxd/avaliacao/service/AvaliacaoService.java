@@ -24,20 +24,20 @@ public class AvaliacaoService implements AvaliacaoIService {
     private final UsuarioRepository usuarioRepository;
     private final LivroRepository livroRepository; 
     
-    private void validarAvaliacao(Avaliacao avaliacao){
-        if(avaliacao == null){
+    private void validarAvaliacao(Avaliacao avaliacao) {
+        if(avaliacao == null) {
             throw new RuntimeException("Dados de avaliação não preenchidos");
         }
-        if(avaliacao.getUsuario() == null){
+        if(avaliacao.getUsuario() == null) {
             throw new RuntimeException("A avaliação precisa estar vinculada a um Usuario");
         }
-        if(avaliacao.getLivro() == null){
+        if(avaliacao.getLivro() == null) {
             throw new RuntimeException("A avaliação precisa estar vinculada a um Livro");
         }
-        if(avaliacao.getNota() < 0 || avaliacao.getNota() > 5){
-            throw new RuntimeException("Nota precisar está entre 0 e 5");
+        if(avaliacao.getNota() < 0 || avaliacao.getNota() > 5) {
+            throw new RuntimeException("Nota precisa estar entre 0 e 5");
         }
-        if(StringUtil.isEmpty(avaliacao.getAvaliacao())){
+        if(StringUtil.isEmpty(avaliacao.getAvaliacao())) {
             throw new RuntimeException("Avaliação não preenchida");
         }
     }

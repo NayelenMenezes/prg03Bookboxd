@@ -1,6 +1,5 @@
 package br.com.ifba.bookboxd.autor.service;
 
-import br.com.ifba.bookboxd.autor.service.AutorIService;
 import br.com.ifba.bookboxd.autor.entity.Autor;
 import br.com.ifba.bookboxd.livro.entity.Livro;
 import br.com.ifba.bookboxd.infrastruture.util.StringUtil;
@@ -17,20 +16,20 @@ import org.springframework.stereotype.Service;
 public class AutorService implements AutorIService{
     private final AutorRepository autorRepository;
     
-    private void validarAutor(Autor autor){
-        if(autor == null){
-            throw new RuntimeException("Dados de Autor não preenchidos");
+    private void validarAutor(Autor autor) {
+        if(autor == null) {
+            throw new RuntimeException("Dados do Autor não preenchidos");
         }
-        if(autor.getPessoa() == null){
-            throw new RuntimeException("O autor precisa estar vinculado a uma pessoa");
+        if(autor.getPessoa() == null) {
+            throw new RuntimeException("O Autor precisa estar vinculado a uma Pessoa");
         }
-        if(StringUtil.isEmpty(autor.getNacionalidade())){
-            throw new RuntimeException("A naciionalidade é obrigatória");
+        if(StringUtil.isEmpty(autor.getNacionalidade())) {
+            throw new RuntimeException("A nacionalidade do Autor é obrigatória");
         }
     }
-    
-    private void validarId(Long id){
-        if(!StringUtil.isIdValido(id)){
+
+    private void validarId(Long id) {
+        if (!StringUtil.isIdValido(id)) {
             throw new RuntimeException("Id inválido");
         }
     }
@@ -75,10 +74,16 @@ public class AutorService implements AutorIService{
     @Override
     public void delete(Long id) {
         validarId(id);
-        
-        if(!autorRepository.existsById(id)){
-            throw new RuntimeException("Autor não encontrado com id: " + id);
+
+        Autor autor = autorRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Autor não encontrado com id: " + id));
+
+        if (autor.contarLivrosPublicados() > 0) {
+            throw new RuntimeException(
+                "Não é possível deletar este autor: ele possui " + autor.contarLivrosPublicados() +
+                " livro(s) cadastrado(s). Delete ou reatribua os livros primeiro.");
         }
+
         log.info("Deletando autor com ID: {}", id);
         autorRepository.deleteById(id);
     }

@@ -1,6 +1,5 @@
 package br.com.ifba.bookboxd.pessoa.service;
 
-import br.com.ifba.bookboxd.pessoa.service.PessoaIService;
 import br.com.ifba.bookboxd.pessoa.entity.Pessoa;
 import br.com.ifba.bookboxd.infrastruture.util.StringUtil;
 import br.com.ifba.bookboxd.pessoa.repository.PessoaRepository;
@@ -17,20 +16,20 @@ public class PessoaService implements PessoaIService{
 
     private final PessoaRepository pessoaRepository;
     
-    private void validarPessoa(Pessoa pessoa){
-        if (pessoa == null){
+    private void validarPessoa(Pessoa pessoa) {
+        if(pessoa == null) {
             throw new RuntimeException("Dados da Pessoa não preenchidos");
         }
-        if (StringUtil.isEmpty(pessoa.getNome())){
-            throw new RuntimeException("Nome da pessoa é obrigatóriio");
+        if(StringUtil.isEmpty(pessoa.getNome())) {
+            throw new RuntimeException("O nome da Pessoa é obrigatório");
         }
-        if(StringUtil.isDataNascimentoValida(pessoa.getDataNascimento())){
-            throw new RuntimeException("Data de nascimento inválida ou não informda");
+        if(!StringUtil.isDataNascimentoValida(pessoa.getDataNascimento())) {
+            throw new RuntimeException("Data de nascimento inválida ou não informada");
         }
     }
     
-    private void validarId(Long id){
-        if (!StringUtil.isIdValido(id)){
+    private void validarId(Long id) {
+        if (!StringUtil.isIdValido(id)) {
             throw new RuntimeException("Id inválido");
         }
     }

@@ -18,23 +18,27 @@ public class LivroService implements LivroIService {
     
     private final LivroRepository livroRepository;
     
-    private void validarLivro(Livro livro){
-        if(livro == null){
-            throw new RuntimeException("Dados do livro não preenchidos");
+    private void validarLivro(Livro livro) {
+        if(livro == null) {
+            throw new RuntimeException("Dados do Livro não preenchidos");
         }
-        if(StringUtil.isEmpty(livro.getTitulo())){
-            throw new RuntimeException("O título do lirvo é obrigatótio");
+        if(StringUtil.isEmpty(livro.getTitulo())) {
+            throw new RuntimeException("O título do Livro é obrigatório");
         }
-        if(!StringUtil.isAnoValido(livro.getAnoPublicacao())){
+        if(!StringUtil.isAnoValido(livro.getAnoPublicacao())) {
             throw new RuntimeException("Ano de publicação inválido");
+        }
+        if(livro.getAutor() == null) {
+            throw new RuntimeException("O Livro precisa ter um Autor vinculado");
         }
     }
     
-    private void validarId(Long id){
-        if(!StringUtil.isIdValido(id)){
+    private void validarId(Long id) {
+        if(!StringUtil.isIdValido(id)) {
             throw new RuntimeException("Id inválido");
         }
     }
+
         
     @Override
     public Livro save(Livro livro) {
@@ -64,10 +68,11 @@ public class LivroService implements LivroIService {
     @Override
     public Optional<Livro> findById(Long id) {
         validarId(id);
+
         log.info("Buscando livro por ID: {}", id);
         Optional<Livro> livro = livroRepository.findById(id);
-        
-        if(livro.isEmpty()){
+
+        if (livro.isEmpty()) {
             throw new RuntimeException("Livro não encontrado com id: " + id);
         }
         return livro;

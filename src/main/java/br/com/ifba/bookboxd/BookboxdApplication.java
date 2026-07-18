@@ -15,15 +15,13 @@ public class BookboxdApplication {
 
             // Inicializa o contexto do Spring Boot no modo desktop
             ConfigurableApplicationContext context = SpringApplication.run(BookboxdApplication.class, args);
-            
-            
-            UsuarioController usuarioController = context.getBean(UsuarioController.class);
+           
                 
             SwingUtilities.invokeLater(() -> {
-            LoginView loginView = new LoginView(usuarioController);
-            loginView.setVisible(true);
-        });
-    }
+                LoginView loginView = context.getBean(LoginView.class);
+                loginView.setVisible(true);
+            });
+        }
 }
 
 
