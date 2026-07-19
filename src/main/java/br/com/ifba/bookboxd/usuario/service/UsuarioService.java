@@ -3,6 +3,7 @@ package br.com.ifba.bookboxd.usuario.service;
 import br.com.ifba.bookboxd.listaleitra.entity.ListaLeitura;
 import br.com.ifba.bookboxd.usuario.entity.Usuario;
 import br.com.ifba.bookboxd.infrastruture.util.StringUtil;
+import br.com.ifba.bookboxd.pessoa.repository.PessoaRepository;
 import br.com.ifba.bookboxd.usuario.repository.UsuarioRepository;
 import java.time.LocalDate;
 import java.util.List;
@@ -16,6 +17,7 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class UsuarioService implements UsuarioIService {
     private final UsuarioRepository usuarioRepository;
+    private final PessoaRepository pessoaRepository;
     
     private void validarUsuario(Usuario usuario) {
         if (usuario == null) {
@@ -100,7 +102,37 @@ public class UsuarioService implements UsuarioIService {
         }
         return usuarios;
     }
+    
+    @Override
+    public List<Usuario> findByNome(String nome) {
+        if (StringUtil.isEmpty(nome)) {
+            throw new RuntimeException("Nome para busca não pode ser vazio");
+        }
 
+        log.info("Buscando usuários pelo nome: {}", nome);
+        List<Usuario> usuarios = usuarioRepository.findByPessoaNomeContainingIgnoreCase(nome);
+
+        if (usuarios.isEmpty()) {
+            throw new RuntimeException("Nenhum usuário encontrado com o nome: " + nome);
+        }
+        return usuarios;
+    }
+
+    @Override
+    public Optional<Usuario> findByEmail(String email) {
+        if (StringUtil.isEmpty(email)) {
+            throw new RuntimeException("Email para busca não pode ser vazio");
+        }
+
+        log.info("Buscando usuário pelo email: {}", email);
+        Optional<Usuario> usuario = usuarioRepository.findByEmailContainingIgnoreCase(email);
+
+        if (usuario.isEmpty()) {
+            throw new RuntimeException("Nenhum usuário encontrado com o email: " + email);
+        }
+        return usuario;
+    }
+    
     @Override
     public Optional<Usuario> autenticar(String email, String senha) {
         if(StringUtil.isEmpty(email) || StringUtil.isEmpty(senha)){
@@ -143,16 +175,18 @@ public class UsuarioService implements UsuarioIService {
     @Override
     public void editarPerfil(Long usuarioId, String nome, String bio) {
         validarId(usuarioId);
-        
-        if(StringUtil.isEmpty(nome)){
+
+        if (StringUtil.isEmpty(nome)) {
             throw new RuntimeException("O nome não pode ser vazio");
         }
-        
+
         Usuario usuario = usuarioRepository.findById(usuarioId)
                 .orElseThrow(() -> new RuntimeException("Usuario não encontrado com id: " + usuarioId));
 
         log.info("Editando perfil do usuário ID: {}", usuarioId);
         usuario.editarPerfil(nome, bio);
+
+        pessoaRepository.save(usuario.getPessoa()); 
         usuarioRepository.save(usuario);
     }
 

@@ -9,7 +9,9 @@ import java.util.List;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.hibernate.Hibernate;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Slf4j
 @Service
@@ -63,14 +65,19 @@ public class EditoraService implements EditoraIService{
     }
     
     @Override
+    @Transactional(readOnly = true)
     public Optional<Editora> findById(Long id) {
         validarId(id);
         log.info("Buscando editora por ID: {}", id);
         Optional<Editora> editora = editoraRepository.findById(id);
-        
-        if(editora.isEmpty()){
+
+        if (editora.isEmpty()) {
             throw new RuntimeException("Editora não encontrada com id: " + id);
         }
+
+        Hibernate.initialize(editora.get().getLivros());
+        editora.get().getLivros().forEach(l -> Hibernate.initialize(l.getAvaliacoes()));
+
         return editora;
     }
 
@@ -101,6 +108,7 @@ public class EditoraService implements EditoraIService{
         if(editoras.isEmpty()){
             throw new RuntimeException("Nenhuma editora cadastrada");
         }
+        editoras.forEach(e -> Hibernate.initialize(e.getLivros()));
         return editoras;
     }
 

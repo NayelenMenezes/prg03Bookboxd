@@ -80,7 +80,18 @@ public class AutorController implements AutorIController{
             throw e;
         }
     }
-
+    
+    @Override
+    public List<Autor> findByNomePessoa(String nome) {
+        try {
+            log.info("Controller: buscando autor pelo nome: {}", nome);
+            return autorService.findByNomePessoa(nome);
+        } catch (RuntimeException e) {
+            log.error("Controller: erro ao buscar autor pelo nome {} - {}", nome, e.getMessage());
+            throw e;
+        }
+    }
+    
     @Override
     public void adicionarLivro(Long autorId, Livro livro) {
         try {

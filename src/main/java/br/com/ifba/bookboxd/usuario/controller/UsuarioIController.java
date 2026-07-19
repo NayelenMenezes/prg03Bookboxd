@@ -30,4 +30,7 @@ public interface UsuarioIController {
     
     ListaLeitura criarListaLeitura(Long usuarioId, String nome, String descricao);
     
+    List<Usuario> findByNome(String nome);
+    
+    Optional<Usuario> findByEmail(String email);
 }

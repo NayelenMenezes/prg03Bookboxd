@@ -11,4 +11,6 @@ public interface AutorRepository extends JpaRepository<Autor, Long>{
     Optional<Autor> findByPessoaId(Long pessoaId);
     
     boolean existsByPessoaId(Long pessoaId);
+    
+    List<Autor> findByPessoaNomeContainingIgnoreCase(String nome);
 }

@@ -1,10 +1,11 @@
 package br.com.ifba.bookboxd.livro.service;
 
-import br.com.ifba.bookboxd.livro.service.LivroIService;
 import br.com.ifba.bookboxd.avaliacao.entity.Avaliacao;
 import br.com.ifba.bookboxd.livro.entity.Livro;
 import br.com.ifba.bookboxd.infrastruture.util.StringUtil;
 import br.com.ifba.bookboxd.livro.repository.LivroRepository;
+import org.hibernate.Hibernate;
+import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
@@ -66,6 +67,7 @@ public class LivroService implements LivroIService {
     }
         
     @Override
+    @Transactional(readOnly = true)
     public Optional<Livro> findById(Long id) {
         validarId(id);
 
@@ -75,6 +77,8 @@ public class LivroService implements LivroIService {
         if (livro.isEmpty()) {
             throw new RuntimeException("Livro não encontrado com id: " + id);
         }
+        Hibernate.initialize(livro.get().getAvaliacoes());
+
         return livro;
     }
 
@@ -91,13 +95,16 @@ public class LivroService implements LivroIService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<Livro> findAll() {
         log.info("Listando todos os livros");
         List<Livro> livros = livroRepository.findAll();
-        
-        if(livros.isEmpty()){
+
+        if (livros.isEmpty()) {
             throw new RuntimeException("Nenhum livro cadastrado");
         }
+
+        livros.forEach(l -> Hibernate.initialize(l.getAvaliacoes()));
         return livros; 
     }
 

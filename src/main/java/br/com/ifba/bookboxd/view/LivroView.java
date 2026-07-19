@@ -14,10 +14,13 @@ import org.springframework.stereotype.Component;
 public class LivroView extends javax.swing.JFrame {
     
     private final LivroIController livroController;
+    private final LivroDetalheDialog livroDetalheDialog;
+    private Long usuarioLogadoId;
     
     @Autowired
-    public LivroView(LivroIController livroController) {
+    public LivroView(LivroIController livroController, LivroDetalheDialog livroDetalheDialog) {
         this.livroController = livroController;
+        this.livroDetalheDialog = livroDetalheDialog;
         initComponents();
         
         tblLivros.getColumnModel().getColumn(0).setMinWidth(0);
@@ -41,8 +44,9 @@ public class LivroView extends javax.swing.JFrame {
         tblLivros = new javax.swing.JTable();
         jSeparator1 = new javax.swing.JSeparator();
         cbFiltro = new javax.swing.JComboBox<>();
+        btnVerDetalhes = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         lblLivro.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         lblLivro.setText("LIVRO");
@@ -82,6 +86,9 @@ public class LivroView extends javax.swing.JFrame {
 
         cbFiltro.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Título", "Gênero", " " }));
 
+        btnVerDetalhes.setText("VER DETALHES");
+        btnVerDetalhes.addActionListener(this::btnVerDetalhesActionPerformed);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -109,6 +116,10 @@ public class LivroView extends javax.swing.JFrame {
                 .addGap(31, 31, 31))
             .addComponent(jSeparator1)
             .addComponent(jScrollPane1)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(btnVerDetalhes)
+                .addGap(43, 43, 43))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -132,11 +143,18 @@ public class LivroView extends javax.swing.JFrame {
                     .addComponent(btnEditar)
                     .addComponent(cbFiltro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 356, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 313, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(14, 14, 14)
+                .addComponent(btnVerDetalhes)
+                .addContainerGap())
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+    
+    public void configurarUsuario(Long usuarioLogadoId) {
+        this.usuarioLogadoId = usuarioLogadoId;
+    }
     
     public void atualizarLista(){
         txtBusca.setText("");
@@ -208,6 +226,14 @@ public class LivroView extends javax.swing.JFrame {
         dialog.setVisible(true);
         carregarTodosLivros();
     }//GEN-LAST:event_btnEditarActionPerformed
+
+    private void btnVerDetalhesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVerDetalhesActionPerformed
+        Livro selecionado = getLivroSelecionado();
+        if (selecionado == null) return;
+
+        livroDetalheDialog.mostrarDetalhes(this, selecionado, usuarioLogadoId);
+        carregarTodosLivros();
+    }//GEN-LAST:event_btnVerDetalhesActionPerformed
     
     // identifica qual linha da tabela tá selecionada e busca o Livro correspondente
     private Livro getLivroSelecionado() {
@@ -263,6 +289,7 @@ public class LivroView extends javax.swing.JFrame {
     private javax.swing.JButton btnCadastrar;
     private javax.swing.JButton btnDeletar;
     private javax.swing.JButton btnEditar;
+    private javax.swing.JButton btnVerDetalhes;
     private javax.swing.JComboBox<String> cbFiltro;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSeparator jSeparator1;

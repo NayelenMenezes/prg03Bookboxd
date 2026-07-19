@@ -71,12 +71,34 @@ public class UsuarioController implements UsuarioIController{
     }
 
     @Override
+    public List<Usuario> findByNome(String nome) {
+        try {
+            log.info("Controller: buscando usuários pelo nome: {}", nome);
+            return usuarioService.findByNome(nome);
+        } catch (RuntimeException e) {
+            log.error("Controller: erro ao buscar usuários pelo nome {} - {}", nome, e.getMessage());
+            throw e;
+        }
+    }
+
+    @Override
+    public Optional<Usuario> findByEmail(String email) {
+        try {
+            log.info("Controller: buscando usuário pelo email: {}", email);
+            return usuarioService.findByEmail(email);
+        } catch (RuntimeException e) {
+            log.error("Controller: erro ao buscar usuário pelo email {} - {}", email, e.getMessage());
+            throw e;
+        }
+    }
+    
+    @Override
     public Optional<Usuario> autenticar(String email, String senha) {
         try {
             log.info("Controller: autenticando usuário: {}", email);
             return usuarioService.autenticar(email, senha);
         } catch (RuntimeException e) {
-            log.error("Controller: erro ao autenticar usuário {} - {}", email, e.getMessage());
+            log.error("Controller: erro ao encontrar usuario - {}", e.getMessage());
             throw e;
         }
     }
@@ -113,4 +135,6 @@ public class UsuarioController implements UsuarioIController{
             throw e;
         }
     }
+
+    
 }

@@ -24,6 +24,8 @@ public interface AutorIController {
     // busca autor pela nacionalidade
     List<Autor> findByNacionalide(String nacionalidade);
     
+    List<Autor> findByNomePessoa(String nome);
+    
     void adicionarLivro(Long autorId, Livro livro);
     
     int contarLivrosPublicados(Long autorId);

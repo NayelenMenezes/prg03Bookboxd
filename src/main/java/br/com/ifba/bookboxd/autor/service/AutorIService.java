@@ -27,4 +27,6 @@ public interface AutorIService {
     void adicionarLivro(Long autorId, Livro livro);
     
     int contarLivrosPublicados(Long autorId);
+    
+    List<Autor> findByNomePessoa(String nome);
 }

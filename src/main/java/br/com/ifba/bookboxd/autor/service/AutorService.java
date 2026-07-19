@@ -8,7 +8,9 @@ import java.util.List;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.hibernate.Hibernate;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Slf4j
 @Service
@@ -60,14 +62,17 @@ public class AutorService implements AutorIService{
     }
     
     @Override
-    public Optional<Autor> findById(Long id) {
-        validarId(id);
+    @Transactional(readOnly = true)
+        public Optional<Autor> findById(Long id) {
+            validarId(id);
         log.info("Buscando autor por ID: {}", id);
         Optional<Autor> autor = autorRepository.findById(id);
-        
-        if(autor.isEmpty()){
+
+        if (autor.isEmpty()) {
             throw new RuntimeException("Autor não encontrado com id: " + id);
         }
+
+        inicializarLivrosEAvaliacoes(autor.get());
         return autor;
     }
 
@@ -92,10 +97,11 @@ public class AutorService implements AutorIService{
     public List<Autor> findAll() {
         log.info("Listando todos os autores");
         List<Autor> autores = autorRepository.findAll();
-        
-        if(autores.isEmpty()){
-            throw new RuntimeException("nenhum autor cadastrado");
+
+        if (autores.isEmpty()) {
+            throw new RuntimeException("Nenhum autor cadastrado");
         }
+        autores.forEach(a -> Hibernate.initialize(a.getLivros()));
         return autores;
     }
 
@@ -110,6 +116,24 @@ public class AutorService implements AutorIService{
         if(autores.isEmpty()){
             throw new RuntimeException("Nanhum autor encontrado com a nacionalidade: " + nacionalidade);
         }
+        return autores;
+    }
+    
+    @Override
+    @Transactional(readOnly = true)
+    public List<Autor> findByNomePessoa(String nome) {
+        if (StringUtil.isEmpty(nome)) {
+            throw new RuntimeException("Nome para busca não pode ser vazio");
+        }
+
+        log.info("Buscando autor pelo nome: {}", nome);
+        List<Autor> autores = autorRepository.findByPessoaNomeContainingIgnoreCase(nome);
+
+        if (autores.isEmpty()) {
+            throw new RuntimeException("Nenhum autor encontrado com o nome: " + nome);
+        }
+
+        autores.forEach(a -> Hibernate.initialize(a.getLivros()));
         return autores;
     }
 
@@ -139,4 +163,9 @@ public class AutorService implements AutorIService{
         return autorRepository.findById(autorId).map(Autor::contarLivrosPublicados)
                 .orElseThrow(() -> new RuntimeException("Autor não encontrado com id: " + autorId));
     }  
+    
+    private void inicializarLivrosEAvaliacoes(Autor autor) {
+        Hibernate.initialize(autor.getLivros());
+        autor.getLivros().forEach(livro -> Hibernate.initialize(livro.getAvaliacoes()));
+    }
 }
