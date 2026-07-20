@@ -25,6 +25,10 @@ public class VerListaDialog extends javax.swing.JDialog {
         this.buscaLivroDialog = buscaLivroDialog;
         initComponents();
         
+        txtDescricaoLista.setLineWrap(true);
+        txtDescricaoLista.setWrapStyleWord(true);
+        txtDescricaoLista.setEditable(false);
+        
         tblLivrosDaLista.getColumnModel().getColumn(0).setMinWidth(0);
         tblLivrosDaLista.getColumnModel().getColumn(0).setMaxWidth(0);
         tblLivrosDaLista.getColumnModel().getColumn(0).setWidth(0);
@@ -41,7 +45,7 @@ public class VerListaDialog extends javax.swing.JDialog {
         try {
             ListaLeitura lista = listaController.findById(listaId).orElseThrow();
             lblNomeLista.setText(lista.getNomeLista());
-            lblDescricaoLista.setText(lista.getDescricao() != null ? lista.getDescricao() : "Sem descrição");
+            txtDescricaoLista.setText(lista.getDescricao() != null ? lista.getDescricao() : "Sem descrição");
             preencherTabela(lista.getListaLivros());
         } catch (RuntimeException e) {
             JOptionPane.showMessageDialog(this, e.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
@@ -62,19 +66,18 @@ public class VerListaDialog extends javax.swing.JDialog {
     private void initComponents() {
 
         lblNomeLista = new javax.swing.JLabel();
-        lblDescricaoLista = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tblLivrosDaLista = new javax.swing.JTable();
         btnAdicionarLivro = new javax.swing.JButton();
         btnRemoverLivro = new javax.swing.JButton();
         btnEsvaziarLista = new javax.swing.JButton();
         btnFechar = new javax.swing.JButton();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        txtDescricaoLista = new javax.swing.JTextArea();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         lblNomeLista.setText("Nome lista");
-
-        lblDescricaoLista.setText("Descricao");
 
         tblLivrosDaLista.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -109,43 +112,46 @@ public class VerListaDialog extends javax.swing.JDialog {
         btnFechar.setText("FECHAR");
         btnFechar.addActionListener(this::btnFecharActionPerformed);
 
+        txtDescricaoLista.setColumns(20);
+        txtDescricaoLista.setRows(5);
+        jScrollPane2.setViewportView(txtDescricaoLista);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
+                .addGap(30, 30, 30)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jScrollPane1))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(30, 30, 30)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(0, 0, Short.MAX_VALUE)
-                                .addComponent(btnFechar))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(btnAdicionarLivro)
-                                .addGap(42, 42, 42)
-                                .addComponent(btnRemoverLivro)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 60, Short.MAX_VALUE)
-                                .addComponent(btnEsvaziarLista)))
-                        .addGap(26, 26, 26))
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(btnFechar))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(49, 49, 49)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(lblNomeLista)
-                            .addComponent(lblDescricaoLista, javax.swing.GroupLayout.PREFERRED_SIZE, 330, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addComponent(btnAdicionarLivro)
+                        .addGap(42, 42, 42)
+                        .addComponent(btnRemoverLivro)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 60, Short.MAX_VALUE)
+                        .addComponent(btnEsvaziarLista)))
+                .addGap(32, 32, 32))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane1)
                 .addContainerGap())
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 452, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblNomeLista, javax.swing.GroupLayout.PREFERRED_SIZE, 452, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(18, 18, 18)
+                .addGap(16, 16, 16)
                 .addComponent(lblNomeLista)
-                .addGap(26, 26, 26)
-                .addComponent(lblDescricaoLista)
-                .addGap(51, 51, 51)
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(32, 32, 32)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 211, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -154,7 +160,7 @@ public class VerListaDialog extends javax.swing.JDialog {
                     .addComponent(btnRemoverLivro))
                 .addGap(18, 18, 18)
                 .addComponent(btnFechar)
-                .addContainerGap(11, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
@@ -181,6 +187,11 @@ public class VerListaDialog extends javax.swing.JDialog {
         }
         DefaultTableModel modelo = (DefaultTableModel) tblLivrosDaLista.getModel();
         Long livroId = (Long) modelo.getValueAt(linha, 0);
+        
+        int confirmacao = JOptionPane.showConfirmDialog(this,
+                "Certeza que quer remover esse livro?", "Confirmar",
+                JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
+        if (confirmacao != JOptionPane.YES_OPTION) return;
         
         try {
             listaController.removerLivro(listaId, livroId);
@@ -214,8 +225,9 @@ public class VerListaDialog extends javax.swing.JDialog {
     private javax.swing.JButton btnFechar;
     private javax.swing.JButton btnRemoverLivro;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JLabel lblDescricaoLista;
+    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JLabel lblNomeLista;
     private javax.swing.JTable tblLivrosDaLista;
+    private javax.swing.JTextArea txtDescricaoLista;
     // End of variables declaration//GEN-END:variables
 }

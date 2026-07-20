@@ -54,13 +54,16 @@ public class EditoraView extends javax.swing.JFrame {
         txtBuscaEditora = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
         tblEditoras = new javax.swing.JTable();
+        btnFechar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         btnVerLivros.setText("VER LIVROS");
         btnVerLivros.addActionListener(this::btnVerLivrosActionPerformed);
 
-        lblEditora.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        jSeparator1.setForeground(new java.awt.Color(0, 102, 102));
+
+        lblEditora.setFont(new java.awt.Font("Serif", 0, 18)); // NOI18N
         lblEditora.setText("EDITORA");
 
         btnCadastrar.setText("CADASTRAR");
@@ -96,6 +99,9 @@ public class EditoraView extends javax.swing.JFrame {
         });
         jScrollPane1.setViewportView(tblEditoras);
 
+        btnFechar.setText("FECHAR");
+        btnFechar.addActionListener(this::btnFecharActionPerformed);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -123,6 +129,10 @@ public class EditoraView extends javax.swing.JFrame {
                 .addGap(31, 31, 31))
             .addComponent(jSeparator1)
             .addComponent(jScrollPane1)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(btnFechar)
+                .addGap(26, 26, 26))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -146,7 +156,10 @@ public class EditoraView extends javax.swing.JFrame {
                     .addComponent(btnEditar)
                     .addComponent(btnVerLivros))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 356, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 315, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(btnFechar)
+                .addContainerGap())
         );
 
         pack();
@@ -210,6 +223,10 @@ public class EditoraView extends javax.swing.JFrame {
                     "Busca sem resultado", JOptionPane.INFORMATION_MESSAGE);
         }
     }//GEN-LAST:event_btnBuscarActionPerformed
+
+    private void btnFecharActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFecharActionPerformed
+        dispose();
+    }//GEN-LAST:event_btnFecharActionPerformed
     
     private Editora getEditoraSelecionada() {
         int linha = tblEditoras.getSelectedRow();
@@ -255,6 +272,7 @@ public class EditoraView extends javax.swing.JFrame {
     private javax.swing.JButton btnCadastrar;
     private javax.swing.JButton btnDeletar;
     private javax.swing.JButton btnEditar;
+    private javax.swing.JButton btnFechar;
     private javax.swing.JButton btnVerLivros;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSeparator jSeparator1;

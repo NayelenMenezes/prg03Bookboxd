@@ -55,7 +55,7 @@ public class PerfilPublicoDialog extends javax.swing.JDialog {
             List<Avaliacao> avaliacoes = avaliacaoController.findByUsuarioId(usuarioId);
             preencherTabelaAvaliacoes(avaliacoes);
         } catch (RuntimeException e) {
-            preencherTabelaAvaliacoes(List.of()); // usuário ainda não avaliou nada
+            preencherTabelaAvaliacoes(List.of());
         }
     }
     
@@ -112,9 +112,11 @@ public class PerfilPublicoDialog extends javax.swing.JDialog {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
+        lblNomeUsuario.setFont(new java.awt.Font("Serif", 0, 18)); // NOI18N
         lblNomeUsuario.setText("nome");
 
         txtBiografia.setColumns(20);
+        txtBiografia.setFont(new java.awt.Font("Serif", 0, 14)); // NOI18N
         txtBiografia.setRows(5);
         jScrollPane4.setViewportView(txtBiografia);
 
@@ -125,7 +127,7 @@ public class PerfilPublicoDialog extends javax.swing.JDialog {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(81, 81, 81)
                 .addComponent(lblNomeUsuario)
-                .addContainerGap(288, Short.MAX_VALUE))
+                .addContainerGap(279, Short.MAX_VALUE))
             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jPanel1Layout.createSequentialGroup()
                     .addGap(83, 83, 83)
@@ -137,12 +139,12 @@ public class PerfilPublicoDialog extends javax.swing.JDialog {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(46, 46, 46)
                 .addComponent(lblNomeUsuario)
-                .addContainerGap(187, Short.MAX_VALUE))
+                .addContainerGap(179, Short.MAX_VALUE))
             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jPanel1Layout.createSequentialGroup()
                     .addGap(102, 102, 102)
                     .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addContainerGap(61, Short.MAX_VALUE)))
+                    .addContainerGap(46, Short.MAX_VALUE)))
         );
 
         jTabbedPane1.addTab("PERFIL", jPanel1);
@@ -217,7 +219,7 @@ public class PerfilPublicoDialog extends javax.swing.JDialog {
 
         jTabbedPane1.addTab("LISTAS", jPanel3);
 
-        btnVoltar.setText("VOLTAR");
+        btnVoltar.setText("FECHAR");
         btnVoltar.addActionListener(this::btnVoltarActionPerformed);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());

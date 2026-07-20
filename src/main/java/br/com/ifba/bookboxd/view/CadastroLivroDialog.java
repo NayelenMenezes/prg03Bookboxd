@@ -70,7 +70,7 @@ public class CadastroLivroDialog extends javax.swing.JDialog {
         txtSinopse.setRows(5);
         jScrollPane1.setViewportView(txtSinopse);
 
-        btnSalvar.setText("Salvar");
+        btnSalvar.setText("SALVAR");
         btnSalvar.addActionListener(this::btnSalvarActionPerformed);
 
         btnSelecionarAutor.setText("Selecionar Autor");

@@ -46,10 +46,11 @@ public class LivroView extends javax.swing.JFrame {
         jSeparator1 = new javax.swing.JSeparator();
         cbFiltro = new javax.swing.JComboBox<>();
         btnVerDetalhes = new javax.swing.JButton();
+        btnFechar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
-        lblLivro.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        lblLivro.setFont(new java.awt.Font("Serif", 0, 18)); // NOI18N
         lblLivro.setText("LIVRO");
 
         btnCadastrar.setText("CADASTRAR");
@@ -85,10 +86,15 @@ public class LivroView extends javax.swing.JFrame {
         });
         jScrollPane1.setViewportView(tblLivros);
 
+        jSeparator1.setForeground(new java.awt.Color(0, 102, 102));
+
         cbFiltro.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Título", "Gênero", " " }));
 
         btnVerDetalhes.setText("VER DETALHES");
         btnVerDetalhes.addActionListener(this::btnVerDetalhesActionPerformed);
+
+        btnFechar.setText("FECHAR");
+        btnFechar.addActionListener(this::btnFecharActionPerformed);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -118,9 +124,11 @@ public class LivroView extends javax.swing.JFrame {
             .addComponent(jSeparator1)
             .addComponent(jScrollPane1)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
+                .addGap(27, 27, 27)
+                .addComponent(btnFechar)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(btnVerDetalhes)
-                .addGap(43, 43, 43))
+                .addGap(26, 26, 26))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -143,11 +151,13 @@ public class LivroView extends javax.swing.JFrame {
                     .addComponent(btnDeletar)
                     .addComponent(btnEditar)
                     .addComponent(cbFiltro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 7, Short.MAX_VALUE)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 313, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(14, 14, 14)
-                .addComponent(btnVerDetalhes)
-                .addContainerGap())
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnVerDetalhes)
+                    .addComponent(btnFechar))
+                .addGap(8, 8, 8))
         );
 
         pack();
@@ -187,13 +197,13 @@ public class LivroView extends javax.swing.JFrame {
             
             preencherTabela(resultados);
         } catch (RuntimeException e){
-            preencherTabela(List.of()); // limpa a tabela
+            preencherTabela(List.of());
             JOptionPane.showMessageDialog(this, e.getMessage(),
                     "Busca sem resultado", JOptionPane.INFORMATION_MESSAGE);
         }
     }//GEN-LAST:event_btnBuscarActionPerformed
 
-    // Ação do botão Deletar: Remove o livro selecionado após confirmação do usuário
+    // remove o livro selecionado após confirmação do usuário
     private void btnDeletarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeletarActionPerformed
         Livro selecionado = getLivroSelecionado();
         if (selecionado == null) return;
@@ -217,7 +227,7 @@ public class LivroView extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnDeletarActionPerformed
     
-    // Ação do botão Editar: Abre a tela de edição populada com o livro selecionado
+    // abre a tela de edição já com o livro selecionado
     private void btnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarActionPerformed
         Livro selecionado = getLivroSelecionado();
         if (selecionado == null) return;
@@ -235,6 +245,10 @@ public class LivroView extends javax.swing.JFrame {
         livroDetalheDialog.mostrarDetalhes(this, selecionado, usuarioLogadoId);
         carregarTodosLivros();
     }//GEN-LAST:event_btnVerDetalhesActionPerformed
+
+    private void btnFecharActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFecharActionPerformed
+        dispose();
+    }//GEN-LAST:event_btnFecharActionPerformed
     
     // identifica qual linha da tabela tá selecionada e busca o Livro correspondente
     private Livro getLivroSelecionado() {
@@ -290,6 +304,7 @@ public class LivroView extends javax.swing.JFrame {
     private javax.swing.JButton btnCadastrar;
     private javax.swing.JButton btnDeletar;
     private javax.swing.JButton btnEditar;
+    private javax.swing.JButton btnFechar;
     private javax.swing.JButton btnVerDetalhes;
     private javax.swing.JComboBox<String> cbFiltro;
     private javax.swing.JScrollPane jScrollPane1;

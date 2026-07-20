@@ -130,10 +130,13 @@ public class LoginView extends javax.swing.JFrame {
         telaCadastro.prepararParaNovoCadastro(this);
         telaCadastro.setVisible(true);
         
+        limparCampos();
+    }//GEN-LAST:event_btnCadastrarActionPerformed
+    
+    public void limparCampos(){
         txtEmail.setText("");
         txtSenha.setText("");
-    }//GEN-LAST:event_btnCadastrarActionPerformed
-
+    }
     
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

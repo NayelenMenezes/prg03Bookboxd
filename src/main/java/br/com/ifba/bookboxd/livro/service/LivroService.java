@@ -39,8 +39,7 @@ public class LivroService implements LivroIService {
             throw new RuntimeException("Id inválido");
         }
     }
-
-        
+   
     @Override
     public Livro save(Livro livro) {
         validarLivro(livro);
