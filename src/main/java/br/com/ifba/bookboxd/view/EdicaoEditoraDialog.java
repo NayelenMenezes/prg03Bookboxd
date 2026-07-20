@@ -7,6 +7,7 @@ import javax.swing.JOptionPane;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+//tela para editar editoras
 @Component
 public class EdicaoEditoraDialog extends javax.swing.JDialog {
     
@@ -49,7 +50,7 @@ public class EdicaoEditoraDialog extends javax.swing.JDialog {
 
         lblSiteEditora.setText("SITE");
 
-        btnSalvar.setText("CADASTRAR");
+        btnSalvar.setText("SALVAR");
         btnSalvar.addActionListener(this::btnSalvarActionPerformed);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());

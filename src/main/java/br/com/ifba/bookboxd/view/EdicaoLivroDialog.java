@@ -7,6 +7,7 @@ import javax.swing.JOptionPane;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+//tela para editar livros
 @Component
 public class EdicaoLivroDialog extends javax.swing.JDialog {
     
@@ -20,6 +21,9 @@ public class EdicaoLivroDialog extends javax.swing.JDialog {
         setTitle("Editar Livro");
         this.livroController = livroController;
         initComponents();
+        
+        txtSinopse.setLineWrap(true);
+        txtSinopse.setWrapStyleWord(true);
     }
 
     @SuppressWarnings("unchecked")

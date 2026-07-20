@@ -9,6 +9,7 @@ import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Slf4j
 @Service
@@ -89,6 +90,7 @@ public class ComentarioService implements ComentarioIService{
     }
 
     @Override
+    @Transactional
     public List<Comentario> findAll() {
         log.info("Listando todos os comentários");
         List<Comentario> comentarios = comentarioRepository.findAll();
@@ -100,6 +102,7 @@ public class ComentarioService implements ComentarioIService{
     }
 
     @Override
+    @Transactional
     public List<Comentario> findByAvaliacaoId(Long avaliacaoId) {
         validarId(avaliacaoId);
         
@@ -113,6 +116,7 @@ public class ComentarioService implements ComentarioIService{
     }
 
     @Override
+    @Transactional
     public List<Comentario> findByUsuarioId(Long usuarioId) {
         validarId(usuarioId);
 
@@ -124,7 +128,8 @@ public class ComentarioService implements ComentarioIService{
         }
         return comentarios;
     }
-
+    
+    //edita texto do comentário
     @Override
     public void editarTexto(Long comentarioId, String novoTexto) {
         validarId(comentarioId);

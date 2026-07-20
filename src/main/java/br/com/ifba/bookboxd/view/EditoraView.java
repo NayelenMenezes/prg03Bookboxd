@@ -9,6 +9,7 @@ import javax.swing.table.DefaultTableModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+//tela responsável pelos CRUDs de editora
 @Component
 public class EditoraView extends javax.swing.JFrame {
     

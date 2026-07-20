@@ -12,6 +12,7 @@ import org.hibernate.Hibernate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+//service de autor
 @Slf4j
 @Service
 @RequiredArgsConstructor
@@ -94,6 +95,7 @@ public class AutorService implements AutorIService{
     }
 
     @Override
+    @Transactional
     public List<Autor> findAll() {
         log.info("Listando todos os autores");
         List<Autor> autores = autorRepository.findAll();
@@ -106,6 +108,7 @@ public class AutorService implements AutorIService{
     }
 
     @Override
+    @Transactional
     public List<Autor> findByNacionalide(String nacionalidade) {
         if(StringUtil.isEmpty(nacionalidade)){
             throw new RuntimeException("Nacionalidade para busca não pode tá vazia");
@@ -136,8 +139,10 @@ public class AutorService implements AutorIService{
         autores.forEach(a -> Hibernate.initialize(a.getLivros()));
         return autores;
     }
-
+    
+    //adiciona livros a esse autor
     @Override
+    @Transactional
     public void adicionarLivro(Long autorId, Livro livro) {
         validarId(autorId);
         
@@ -155,7 +160,8 @@ public class AutorService implements AutorIService{
         autor.adicionarLivro(livro);
         autorRepository.save(autor);
     }
-
+    
+    //contar o total de livros ele tem publicado
     @Override
     public int contarLivrosPublicados(Long autorId) {
         validarId(autorId);

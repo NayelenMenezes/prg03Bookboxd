@@ -1,6 +1,7 @@
 package br.com.ifba.bookboxd.view;
 
 import br.com.ifba.bookboxd.autor.entity.Autor;
+import br.com.ifba.bookboxd.editora.entity.Editora;
 import br.com.ifba.bookboxd.infrastruture.util.StringUtil;
 import br.com.ifba.bookboxd.livro.controller.LivroController;
 import br.com.ifba.bookboxd.livro.entity.Livro;
@@ -8,20 +9,28 @@ import javax.swing.JOptionPane;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+//uma telinha que faz o cadastro de novos livros
 @Component
 public class CadastroLivroDialog extends javax.swing.JDialog {
     
     private final LivroController livroController;
     private final BuscaAutorDialog buscaAutorDialog;
+    private final BuscaEditoraDialog buscaEditoraDialog;
     private Autor autorEscolhido;
+    private Editora editoraEscolhida;
 
     @Autowired
-    public CadastroLivroDialog(LivroController livroController, BuscaAutorDialog buscaAutorDialog) {
+    public CadastroLivroDialog(LivroController livroController, BuscaAutorDialog buscaAutorDialog,
+                                BuscaEditoraDialog buscaEditoraDialog) {
         super();
         setModal(true);
         this.livroController = livroController;
         this.buscaAutorDialog = buscaAutorDialog;
+        this.buscaEditoraDialog = buscaEditoraDialog;
         initComponents();
+        
+        txtSinopse.setLineWrap(true);
+        txtSinopse.setWrapStyleWord(true);
     }
    
     @SuppressWarnings("unchecked")
@@ -42,6 +51,8 @@ public class CadastroLivroDialog extends javax.swing.JDialog {
         btnSalvar = new javax.swing.JButton();
         btnSelecionarAutor = new javax.swing.JButton();
         lblAutorEscolhido = new javax.swing.JLabel();
+        btnSelecionarEditora = new javax.swing.JButton();
+        lblEditoraEscolhida = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -68,6 +79,12 @@ public class CadastroLivroDialog extends javax.swing.JDialog {
         lblAutorEscolhido.setText("Autor Escolhido");
         lblAutorEscolhido.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
+        btnSelecionarEditora.setText("Selecionar Editora");
+        btnSelecionarEditora.addActionListener(this::btnSelecionarEditoraActionPerformed);
+
+        lblEditoraEscolhida.setText("Editora Escolhida");
+        lblEditoraEscolhida.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -79,10 +96,6 @@ public class CadastroLivroDialog extends javax.swing.JDialog {
             .addGroup(layout.createSequentialGroup()
                 .addGap(46, 46, 46)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(btnSelecionarAutor)
-                        .addGap(18, 18, 18)
-                        .addComponent(lblAutorEscolhido, javax.swing.GroupLayout.PREFERRED_SIZE, 137, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(jLabel3)
@@ -100,7 +113,15 @@ public class CadastroLivroDialog extends javax.swing.JDialog {
                                     .addComponent(txtGenero)))
                             .addGroup(layout.createSequentialGroup()
                                 .addGap(40, 40, 40)
-                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 173, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 173, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(btnSelecionarEditora, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(btnSelecionarAutor, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(lblAutorEscolhido, javax.swing.GroupLayout.DEFAULT_SIZE, 137, Short.MAX_VALUE)
+                            .addComponent(lblEditoraEscolhida, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                 .addContainerGap(77, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -134,7 +155,11 @@ public class CadastroLivroDialog extends javax.swing.JDialog {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnSelecionarAutor)
                     .addComponent(lblAutorEscolhido, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 15, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnSelecionarEditora)
+                    .addComponent(lblEditoraEscolhida))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 35, Short.MAX_VALUE)
                 .addComponent(btnSalvar)
                 .addGap(16, 16, 16))
         );
@@ -146,6 +171,8 @@ public class CadastroLivroDialog extends javax.swing.JDialog {
         limparCampos();
         this.autorEscolhido = null;
         lblAutorEscolhido.setText("Nenhum autor selecionado");
+        this.editoraEscolhida = null;
+        lblEditoraEscolhida.setText("Nenhuma editora selecionada");
         setLocationRelativeTo(parent);
     }
     
@@ -185,6 +212,12 @@ public class CadastroLivroDialog extends javax.swing.JDialog {
             return;
         }
         
+        if (editoraEscolhida == null) {
+            JOptionPane.showMessageDialog(this, "Selecione uma editora para o livro.",
+                    "Campo obrigatório", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+        
         Livro livro = new Livro();
         livro.setTitulo(txtTitulo.getText().trim());
         livro.setIsbn(txtIsbn.getText().trim());
@@ -192,6 +225,7 @@ public class CadastroLivroDialog extends javax.swing.JDialog {
         livro.setGenero(txtGenero.getText().trim());
         livro.setSinopse(txtSinopse.getText().trim());
         livro.setAutor(autorEscolhido);
+        livro.setEditora(editoraEscolhida);
         
         try {
             livroController.save(livro);
@@ -216,9 +250,18 @@ public class CadastroLivroDialog extends javax.swing.JDialog {
         }
     }//GEN-LAST:event_btnSelecionarAutorActionPerformed
 
+    private void btnSelecionarEditoraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSelecionarEditoraActionPerformed
+        Editora escolhida = buscaEditoraDialog.mostrarESelecionar(this);
+        if (escolhida != null){
+            this.editoraEscolhida = escolhida;
+            lblEditoraEscolhida.setText("Editora: " + escolhida.getNome());
+        }
+    }//GEN-LAST:event_btnSelecionarEditoraActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnSalvar;
     private javax.swing.JButton btnSelecionarAutor;
+    private javax.swing.JButton btnSelecionarEditora;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -226,6 +269,7 @@ public class CadastroLivroDialog extends javax.swing.JDialog {
     private javax.swing.JLabel jLabel5;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel lblAutorEscolhido;
+    private javax.swing.JLabel lblEditoraEscolhida;
     private javax.swing.JTextField txtAnopublicacao;
     private javax.swing.JTextField txtGenero;
     private javax.swing.JTextField txtIsbn;

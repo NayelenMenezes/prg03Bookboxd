@@ -10,6 +10,7 @@ import javax.swing.table.DefaultTableModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+//tela responsável pelos CRUDs de livro
 @Component
 public class LivroView extends javax.swing.JFrame {
     

@@ -7,6 +7,7 @@ import javax.swing.JOptionPane;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+//Telinha para fazer edições em autor
 @Component
 public class EdicaoAutorDialog extends javax.swing.JDialog {
     
@@ -20,6 +21,9 @@ public class EdicaoAutorDialog extends javax.swing.JDialog {
         setTitle("Editar Autor");
         this.autorController = autorController;
         initComponents();
+        
+        txtBiografia.setLineWrap(true);
+        txtBiografia.setWrapStyleWord(true);
     }
 
     public void prepararParaEdicao(java.awt.Frame parent, Autor autor) {
@@ -48,7 +52,7 @@ public class EdicaoAutorDialog extends javax.swing.JDialog {
 
         lblBiografia.setText("BIOGRAFIA");
 
-        btnSalvarEdicaoAutor.setText("CADASTRAR");
+        btnSalvarEdicaoAutor.setText("SALVAR");
         btnSalvarEdicaoAutor.addActionListener(this::btnSalvarEdicaoAutorActionPerformed);
 
         txtBiografia.setColumns(20);
@@ -105,13 +109,14 @@ public class EdicaoAutorDialog extends javax.swing.JDialog {
                 .addGap(23, 23, 23))
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
-                    .addGap(154, 154, 154)
-                    .addComponent(lblBiografia)
-                    .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                    .addGap(143, 143, 143)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addContainerGap(76, Short.MAX_VALUE)))
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(layout.createSequentialGroup()
+                            .addGap(154, 154, 154)
+                            .addComponent(lblBiografia))
+                        .addGroup(layout.createSequentialGroup()
+                            .addGap(143, 143, 143)
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
         );
 
         pack();

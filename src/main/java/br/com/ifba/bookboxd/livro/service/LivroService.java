@@ -109,6 +109,7 @@ public class LivroService implements LivroIService {
     }
 
     @Override
+    @Transactional
     public List<Livro> findByTitulo(String titulo) {
         if(StringUtil.isEmpty(titulo)){
             throw new RuntimeException("Titulo pra busca não pode ser vazio");
@@ -123,6 +124,7 @@ public class LivroService implements LivroIService {
     }
     
     @Override
+    @Transactional
     public List<Livro> findByGenero(String genero) {
         if(StringUtil.isEmpty(genero)){
             throw new RuntimeException("Gênero pra busca não pode ser vazio");

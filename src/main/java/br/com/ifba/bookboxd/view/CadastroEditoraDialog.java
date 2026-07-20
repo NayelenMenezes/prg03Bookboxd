@@ -7,6 +7,7 @@ import javax.swing.JOptionPane;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+//uma telinha que faz o cadastro de novas editoras 
 @Component
 public class CadastroEditoraDialog extends javax.swing.JDialog {
     

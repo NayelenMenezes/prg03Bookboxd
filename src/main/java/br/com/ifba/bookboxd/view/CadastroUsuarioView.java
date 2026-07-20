@@ -12,6 +12,7 @@ import javax.swing.JOptionPane;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+//uma telinha que faz o cadastro de novos usuarios
 @Component
 public class CadastroUsuarioView extends javax.swing.JDialog {
     

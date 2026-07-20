@@ -7,6 +7,7 @@ import javax.swing.table.DefaultTableModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+//exibe o perfil do autor
 @Component
 public class AutorPerfilDialog extends javax.swing.JDialog {
     
@@ -19,7 +20,7 @@ public class AutorPerfilDialog extends javax.swing.JDialog {
         setTitle("Perfil do Autor");
         this.autorController = autorController;
         initComponents();
-
+        
         tblLivrosAutor.getColumnModel().getColumn(0).setMinWidth(0);
         tblLivrosAutor.getColumnModel().getColumn(0).setMaxWidth(0);
         tblLivrosAutor.getColumnModel().getColumn(0).setWidth(0);
@@ -77,7 +78,7 @@ public class AutorPerfilDialog extends javax.swing.JDialog {
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Long.class, java.lang.String.class, java.lang.Double.class, java.lang.String.class
+                java.lang.Long.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -101,9 +102,9 @@ public class AutorPerfilDialog extends javax.swing.JDialog {
             .addGroup(layout.createSequentialGroup()
                 .addGap(85, 85, 85)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(lblBiografia)
                     .addComponent(lblNacionalidade)
-                    .addComponent(lblNomeAutor))
+                    .addComponent(lblNomeAutor)
+                    .addComponent(lblBiografia, javax.swing.GroupLayout.PREFERRED_SIZE, 337, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -114,8 +115,8 @@ public class AutorPerfilDialog extends javax.swing.JDialog {
                 .addGap(28, 28, 28)
                 .addComponent(lblNacionalidade)
                 .addGap(18, 18, 18)
-                .addComponent(lblBiografia)
-                .addGap(46, 46, 46)
+                .addComponent(lblBiografia, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 260, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(btnFecharPerfilAutor)

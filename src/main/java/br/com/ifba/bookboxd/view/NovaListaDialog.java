@@ -1,12 +1,12 @@
 package br.com.ifba.bookboxd.view;
 
 import br.com.ifba.bookboxd.infrastruture.util.StringUtil;
-import br.com.ifba.bookboxd.listaleitra.entity.ListaLeitura;
 import br.com.ifba.bookboxd.usuario.controller.UsuarioController;
 import javax.swing.JOptionPane;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+//telinha para criar nova lista de leituara
 @Component
 public class NovaListaDialog extends javax.swing.JDialog {
     
@@ -21,6 +21,9 @@ public class NovaListaDialog extends javax.swing.JDialog {
         setTitle("Nova Lista de Leitura");
         this.usuarioController = usuarioController;
         initComponents();
+        
+        txtDescricaoLista.setLineWrap(true);
+        txtDescricaoLista.setWrapStyleWord(true);
     }
 
     public boolean mostrarParaCriar(java.awt.Component parent, Long usuarioId) {
@@ -76,11 +79,11 @@ public class NovaListaDialog extends javax.swing.JDialog {
                     .addComponent(txtNomeLista, javax.swing.GroupLayout.PREFERRED_SIZE, 234, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(60, Short.MAX_VALUE))
             .addGroup(layout.createSequentialGroup()
-                .addGap(66, 66, 66)
-                .addComponent(btnSalvarLista)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(77, 77, 77)
                 .addComponent(btnCancelarLista)
-                .addGap(41, 41, 41))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btnSalvarLista)
+                .addGap(40, 40, 40))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -93,11 +96,11 @@ public class NovaListaDialog extends javax.swing.JDialog {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(lblDescricao)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 35, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 51, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnSalvarLista)
-                    .addComponent(btnCancelarLista))
-                .addGap(57, 57, 57))
+                    .addComponent(btnCancelarLista)
+                    .addComponent(btnSalvarLista))
+                .addGap(41, 41, 41))
         );
 
         pack();

@@ -13,8 +13,11 @@ import java.util.List;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.hibernate.Hibernate;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+//service de avaliação
 @Slf4j
 @Service
 @RequiredArgsConstructor
@@ -76,6 +79,7 @@ public class AvaliacaoService implements AvaliacaoIService {
     }
     
     @Override
+    @Transactional(readOnly = true)
     public Optional<Avaliacao> findById(Long id) {
         validarId(id);
         log.info("Buscando avaliação por ID: {}", id);
@@ -84,6 +88,7 @@ public class AvaliacaoService implements AvaliacaoIService {
         if(avaliacao.isEmpty()){
             throw new RuntimeException("Avaliacao não encontrado com id: " + id);
         }
+        Hibernate.initialize(avaliacao.get().getComentarios());
         return avaliacao;
     }
 
@@ -99,6 +104,7 @@ public class AvaliacaoService implements AvaliacaoIService {
     }
 
     @Override
+    @Transactional
     public List<Avaliacao> findAll() {
         log.info("Listando todas as avaliações");
         
@@ -111,6 +117,7 @@ public class AvaliacaoService implements AvaliacaoIService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<Avaliacao> findByLivroId(Long livroId) {
         validarId(livroId);
         log.info("Buscando avaliações do livro ID: {}", livroId);
@@ -119,21 +126,26 @@ public class AvaliacaoService implements AvaliacaoIService {
         if(avaliacoes.isEmpty()){
             throw new RuntimeException("Nenhuma avaliação encontrada para o livro id: " + livroId);
         }
+        avaliacoes.forEach(a -> Hibernate.initialize(a.getComentarios()));
         return avaliacoes;
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<Avaliacao> findByUsuarioId(Long usuarioId) {
         validarId(usuarioId);
         log.info("Buscando avaliações do usuário ID: {}", usuarioId);
         List<Avaliacao> avaliacoes = avaliacaoRepository.findByUsuarioId(usuarioId);
-        
-        if(avaliacoes.isEmpty()){
+
+        if (avaliacoes.isEmpty()) {
             throw new RuntimeException("Nenhuma avaliação encontrada para o usuário id: " + usuarioId);
         }
+
+        avaliacoes.forEach(a -> Hibernate.initialize(a.getComentarios()));
         return avaliacoes;
     }
-
+    
+    //editar o texto da avaliação
     @Override
     public void editarTexto(Long avaliacaoId, String novoTexto) {
         validarId(avaliacaoId);
@@ -149,7 +161,9 @@ public class AvaliacaoService implements AvaliacaoIService {
         avaliacaoRepository.save(avaliacao);
     }
 
+    //adiciona novos comentarios a avaliacao
     @Override
+    @Transactional
     public Comentario adicionarComentario(Long avaliacaoId, Long autorId, String texto) {
         validarId(avaliacaoId);
         validarId(autorId);
@@ -170,6 +184,7 @@ public class AvaliacaoService implements AvaliacaoIService {
         return comentario;
     }
 
+    //ver se avaliação contem spoiler
     @Override
     public void toggleSpoiler(Long avaliacaoId) {
         validarId(avaliacaoId);
@@ -182,7 +197,9 @@ public class AvaliacaoService implements AvaliacaoIService {
         avaliacaoRepository.save(avaliacao);
     } 
     
+    //cria nova avaliação
     @Override
+    @Transactional
     public Avaliacao criarAvaliacao(Long usuarioId, Long livroId, int nota, String texto, boolean contemSpoiler) {
         validarId(usuarioId);
         validarId(livroId);

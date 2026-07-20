@@ -14,6 +14,7 @@ import javax.swing.table.DefaultTableModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+//exibe o perfil do usuario
 @Component
 public class PerfilView extends javax.swing.JDialog {
     
@@ -25,12 +26,15 @@ public class PerfilView extends javax.swing.JDialog {
     private final NovaAvaliacaoDialog novaAvaliacaoDialog;
     private final NovaListaDialog novaListaDialog;
     private final VerListaDialog verListaDialog;
+    private final EditarTextoDialog editarTextoDialog;
+    private final AlterarSenhaDialog alterarSenhaDialog;
 
     @Autowired
     public PerfilView(UsuarioController usuarioController, AvaliacaoController avaliacaoController,
                        ListaLeituraController listaController, BuscaLivroDialog buscaLivroDialog,
                        NovaAvaliacaoDialog novaAvaliacaoDialog, NovaListaDialog novaListaDialog,
-                        VerListaDialog verListaDialog) {
+                        VerListaDialog verListaDialog, EditarTextoDialog editarTextoDialog,
+                        AlterarSenhaDialog alterarSenhaDialog) {
         super();
         setModal(true);
         setTitle("Meu Perfil");
@@ -41,8 +45,17 @@ public class PerfilView extends javax.swing.JDialog {
         this.novaAvaliacaoDialog = novaAvaliacaoDialog;
         this.novaListaDialog = novaListaDialog;
         this.verListaDialog = verListaDialog;
+        this.editarTextoDialog = editarTextoDialog;
+        this.alterarSenhaDialog = alterarSenhaDialog;
 
         initComponents();
+        
+        txtBiografiaExibicao.setLineWrap(true);
+        txtBiografiaExibicao.setWrapStyleWord(true);
+        txtBiografiaExibicao.setEditable(false);
+        
+        txtBiografia.setLineWrap(true);
+        txtBiografia.setWrapStyleWord(true);
 
         tblAvaliacoes.getColumnModel().getColumn(0).setMinWidth(0);
         tblAvaliacoes.getColumnModel().getColumn(0).setMaxWidth(0);
@@ -64,7 +77,7 @@ public class PerfilView extends javax.swing.JDialog {
         lblNomeExibicao.setText(usuarioLogado.getPessoa().getNome());
         lblIdadeExibicao.setText("Idade: " + usuarioLogado.getPessoa().obterIdade() + " anos");
         
-        lblBiografiaExibicao.setText(usuarioLogado.getPessoa().getBiografia() != null
+        txtBiografiaExibicao.setText(usuarioLogado.getPessoa().getBiografia() != null
                 ? usuarioLogado.getPessoa().getBiografia() : "Sem biografia");
         
         txtNome.setText(usuarioLogado.getPessoa().getNome());
@@ -79,19 +92,21 @@ public class PerfilView extends javax.swing.JDialog {
         panelPerfil = new javax.swing.JPanel();
         lblNomeExibicao = new javax.swing.JLabel();
         lblIdadeExibicao = new javax.swing.JLabel();
-        lblBiografiaExibicao = new javax.swing.JLabel();
+        jScrollPane4 = new javax.swing.JScrollPane();
+        txtBiografiaExibicao = new javax.swing.JTextArea();
         panelEditarPerfil = new javax.swing.JPanel();
         lblNome = new javax.swing.JLabel();
         lblBiografia = new javax.swing.JLabel();
-        lblIdade = new javax.swing.JLabel();
         txtNome = new javax.swing.JTextField();
         btnSalvarEdicao = new javax.swing.JButton();
         jScrollPane3 = new javax.swing.JScrollPane();
         txtBiografia = new javax.swing.JTextArea();
+        btnAlterarSenha = new javax.swing.JButton();
         panelAvaliacoes = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tblAvaliacoes = new javax.swing.JTable();
         btnNovaAvaliacao = new javax.swing.JButton();
+        jButton1 = new javax.swing.JButton();
         panelListas = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
         tblListas = new javax.swing.JTable();
@@ -105,7 +120,9 @@ public class PerfilView extends javax.swing.JDialog {
 
         lblIdadeExibicao.setText("idade");
 
-        lblBiografiaExibicao.setText("bio");
+        txtBiografiaExibicao.setColumns(20);
+        txtBiografiaExibicao.setRows(5);
+        jScrollPane4.setViewportView(txtBiografiaExibicao);
 
         javax.swing.GroupLayout panelPerfilLayout = new javax.swing.GroupLayout(panelPerfil);
         panelPerfil.setLayout(panelPerfilLayout);
@@ -114,10 +131,10 @@ public class PerfilView extends javax.swing.JDialog {
             .addGroup(panelPerfilLayout.createSequentialGroup()
                 .addGap(79, 79, 79)
                 .addGroup(panelPerfilLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(lblBiografiaExibicao)
+                    .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(lblIdadeExibicao)
                     .addComponent(lblNomeExibicao, javax.swing.GroupLayout.PREFERRED_SIZE, 205, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(267, Short.MAX_VALUE))
+                .addContainerGap(238, Short.MAX_VALUE))
         );
         panelPerfilLayout.setVerticalGroup(
             panelPerfilLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -126,9 +143,9 @@ public class PerfilView extends javax.swing.JDialog {
                 .addComponent(lblNomeExibicao)
                 .addGap(55, 55, 55)
                 .addComponent(lblIdadeExibicao)
-                .addGap(44, 44, 44)
-                .addComponent(lblBiografiaExibicao)
-                .addContainerGap(189, Short.MAX_VALUE))
+                .addGap(46, 46, 46)
+                .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(117, Short.MAX_VALUE))
         );
 
         jTabbedPane2.addTab("Perfil", panelPerfil);
@@ -137,8 +154,6 @@ public class PerfilView extends javax.swing.JDialog {
 
         lblBiografia.setText("BIOGRAFIA");
 
-        lblIdade.setText("IDADE");
-
         btnSalvarEdicao.setText("SALVAR PERFIL");
         btnSalvarEdicao.addActionListener(this::btnSalvarEdicaoActionPerformed);
 
@@ -146,31 +161,32 @@ public class PerfilView extends javax.swing.JDialog {
         txtBiografia.setRows(5);
         jScrollPane3.setViewportView(txtBiografia);
 
+        btnAlterarSenha.setText("ALTERAR SENHA");
+        btnAlterarSenha.addActionListener(this::btnAlterarSenhaActionPerformed);
+
         javax.swing.GroupLayout panelEditarPerfilLayout = new javax.swing.GroupLayout(panelEditarPerfil);
         panelEditarPerfil.setLayout(panelEditarPerfilLayout);
         panelEditarPerfilLayout.setHorizontalGroup(
             panelEditarPerfilLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelEditarPerfilLayout.createSequentialGroup()
+                .addGap(54, 54, 54)
+                .addGroup(panelEditarPerfilLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(lblBiografia)
+                    .addComponent(lblNome))
                 .addGroup(panelEditarPerfilLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(panelEditarPerfilLayout.createSequentialGroup()
-                        .addGap(54, 54, 54)
-                        .addGroup(panelEditarPerfilLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(lblBiografia)
-                            .addComponent(lblNome))
-                        .addGroup(panelEditarPerfilLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(panelEditarPerfilLayout.createSequentialGroup()
-                                .addGap(57, 57, 57)
-                                .addComponent(txtNome, javax.swing.GroupLayout.PREFERRED_SIZE, 196, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(panelEditarPerfilLayout.createSequentialGroup()
-                                .addGap(66, 66, 66)
-                                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addGap(57, 57, 57)
+                        .addComponent(txtNome, javax.swing.GroupLayout.PREFERRED_SIZE, 196, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(panelEditarPerfilLayout.createSequentialGroup()
-                        .addGap(87, 87, 87)
-                        .addComponent(lblIdade, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(panelEditarPerfilLayout.createSequentialGroup()
-                        .addGap(230, 230, 230)
-                        .addComponent(btnSalvarEdicao)))
+                        .addGap(66, 66, 66)
+                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(138, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelEditarPerfilLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(panelEditarPerfilLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(btnAlterarSenha)
+                    .addComponent(btnSalvarEdicao))
+                .addGap(216, 216, 216))
         );
         panelEditarPerfilLayout.setVerticalGroup(
             panelEditarPerfilLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -183,32 +199,39 @@ public class PerfilView extends javax.swing.JDialog {
                 .addGroup(panelEditarPerfilLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(lblBiografia)
                     .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(20, 20, 20)
-                .addComponent(lblIdade)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 108, Short.MAX_VALUE)
+                .addGap(90, 90, 90)
                 .addComponent(btnSalvarEdicao)
-                .addGap(37, 37, 37))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 38, Short.MAX_VALUE)
+                .addComponent(btnAlterarSenha)
+                .addGap(30, 30, 30))
         );
 
         jTabbedPane2.addTab("Editar Perfil", panelEditarPerfil);
 
         tblAvaliacoes.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null}
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
             },
             new String [] {
-                "Livro", "Nota", "Texto"
+                "id", "Livro", "Nota", "Texto"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.Integer.class, java.lang.String.class
+                java.lang.Long.class, java.lang.String.class, java.lang.Integer.class, java.lang.String.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, true, true, true
             };
 
             public Class getColumnClass(int columnIndex) {
                 return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
             }
         });
         jScrollPane1.setViewportView(tblAvaliacoes);
@@ -216,18 +239,20 @@ public class PerfilView extends javax.swing.JDialog {
         btnNovaAvaliacao.setText("NOVA AVALIAÇÃO");
         btnNovaAvaliacao.addActionListener(this::btnNovaAvaliacaoActionPerformed);
 
+        jButton1.setText("EDITAR AVALIAÇÃO");
+        jButton1.addActionListener(this::jButton1ActionPerformed);
+
         javax.swing.GroupLayout panelAvaliacoesLayout = new javax.swing.GroupLayout(panelAvaliacoes);
         panelAvaliacoes.setLayout(panelAvaliacoesLayout);
         panelAvaliacoesLayout.setHorizontalGroup(
             panelAvaliacoesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelAvaliacoesLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 539, Short.MAX_VALUE)
-                .addContainerGap())
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelAvaliacoesLayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(74, 74, 74)
+                .addComponent(jButton1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(btnNovaAvaliacao)
                 .addGap(42, 42, 42))
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 551, Short.MAX_VALUE)
         );
         panelAvaliacoesLayout.setVerticalGroup(
             panelAvaliacoesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -235,7 +260,9 @@ public class PerfilView extends javax.swing.JDialog {
                 .addGap(31, 31, 31)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 279, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 19, Short.MAX_VALUE)
-                .addComponent(btnNovaAvaliacao)
+                .addGroup(panelAvaliacoesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnNovaAvaliacao)
+                    .addComponent(jButton1))
                 .addContainerGap())
         );
 
@@ -243,17 +270,17 @@ public class PerfilView extends javax.swing.JDialog {
 
         tblListas.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null}
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null}
             },
             new String [] {
-                "Nome", "Qnt. Livros"
+                "id", "Nome", "Qnt. Livros"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.Integer.class
+                java.lang.Long.class, java.lang.String.class, java.lang.Integer.class
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -416,6 +443,36 @@ public class PerfilView extends javax.swing.JDialog {
         verListaDialog.mostrarLista(this, listaId);
         carregarListas();
     }//GEN-LAST:event_btnVerListaActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        int linha = tblAvaliacoes.getSelectedRow();
+        if (linha == -1) {
+            JOptionPane.showMessageDialog(this, "Selecione uma avaliação para editar.",
+                    "Nenhuma avaliação selecionada", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        DefaultTableModel modelo = (DefaultTableModel) tblAvaliacoes.getModel();
+        Long avaliacaoId = (Long) modelo.getValueAt(linha, 0);
+        String textoAtual = (String) modelo.getValueAt(linha, 3); 
+
+        String novoTexto = editarTextoDialog.mostrarParaEditar(this, "Editar Avaliação", textoAtual);
+        if (novoTexto == null) return;
+
+        try {
+            avaliacaoController.editarTexto(avaliacaoId, novoTexto);
+            JOptionPane.showMessageDialog(this, "Avaliação atualizada com sucesso!",
+                    "Sucesso", JOptionPane.INFORMATION_MESSAGE);
+            carregarAvaliacoes(); 
+        } catch (RuntimeException e) {
+            JOptionPane.showMessageDialog(this, e.getMessage(), "Erro ao editar", JOptionPane.ERROR_MESSAGE);
+        }
+
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void btnAlterarSenhaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAlterarSenhaActionPerformed
+        alterarSenhaDialog.mostrarParaAlterar(this, usuarioLogado.getId());
+    }//GEN-LAST:event_btnAlterarSenhaActionPerformed
     
     private Long getListaSelecionadaId(){
         int linha = tblListas.getSelectedRow();
@@ -430,17 +487,18 @@ public class PerfilView extends javax.swing.JDialog {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAdicionarLivroNaLista;
+    private javax.swing.JButton btnAlterarSenha;
     private javax.swing.JButton btnNovaAvaliacao;
     private javax.swing.JButton btnNovaLista;
     private javax.swing.JButton btnSalvarEdicao;
     private javax.swing.JButton btnVerLista;
+    private javax.swing.JButton jButton1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JTabbedPane jTabbedPane2;
     private javax.swing.JLabel lblBiografia;
-    private javax.swing.JLabel lblBiografiaExibicao;
-    private javax.swing.JLabel lblIdade;
     private javax.swing.JLabel lblIdadeExibicao;
     private javax.swing.JLabel lblNome;
     private javax.swing.JLabel lblNomeExibicao;
@@ -451,6 +509,7 @@ public class PerfilView extends javax.swing.JDialog {
     private javax.swing.JTable tblAvaliacoes;
     private javax.swing.JTable tblListas;
     private javax.swing.JTextArea txtBiografia;
+    private javax.swing.JTextArea txtBiografiaExibicao;
     private javax.swing.JTextField txtNome;
     // End of variables declaration//GEN-END:variables
 }

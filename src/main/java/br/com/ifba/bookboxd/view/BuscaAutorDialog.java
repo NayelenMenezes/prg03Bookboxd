@@ -9,6 +9,7 @@ import javax.swing.table.DefaultTableModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+//telinha que faz a busca de autor
 @Component
 public class BuscaAutorDialog extends javax.swing.JDialog {
     
@@ -55,21 +56,28 @@ public class BuscaAutorDialog extends javax.swing.JDialog {
 
         tblAutoresBusca.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null}
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null}
             },
             new String [] {
-                "Nome", "Nacionalidade"
+                "id", "Nome", "Nacionalidade"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class
+                java.lang.Long.class, java.lang.String.class, java.lang.String.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, true, true
             };
 
             public Class getColumnClass(int columnIndex) {
                 return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
             }
         });
         jScrollPane1.setViewportView(tblAutoresBusca);
@@ -95,11 +103,11 @@ public class BuscaAutorDialog extends javax.swing.JDialog {
                         .addGap(0, 101, Short.MAX_VALUE)))
                 .addContainerGap())
             .addGroup(layout.createSequentialGroup()
-                .addGap(28, 28, 28)
-                .addComponent(btnSelecionarAutor)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(btnCancelarBuscaAutor)
-                .addGap(39, 39, 39))
+                .addGap(168, 168, 168)
+                .addComponent(btnSelecionarAutor)
+                .addGap(35, 35, 35))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -112,8 +120,8 @@ public class BuscaAutorDialog extends javax.swing.JDialog {
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 297, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnSelecionarAutor)
-                    .addComponent(btnCancelarBuscaAutor))
+                    .addComponent(btnCancelarBuscaAutor)
+                    .addComponent(btnSelecionarAutor))
                 .addContainerGap(14, Short.MAX_VALUE))
         );
 

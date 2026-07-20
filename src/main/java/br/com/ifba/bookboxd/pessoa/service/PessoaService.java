@@ -97,6 +97,7 @@ public class PessoaService implements PessoaIService{
         return pessoas;
     }
 
+    //calcula a idade com base na data de nascimento
     @Override
     public int obterIdade(Long pessoaId) {
         validarId(pessoaId);
@@ -105,6 +106,7 @@ public class PessoaService implements PessoaIService{
                 .orElseThrow(() -> new RuntimeException("Pessoa não encontrada com id: " + pessoaId));
     }
 
+    //exibe os dados do perfil
     @Override
     public String exibirPerfil(Long pessoaId) {
         validarId(pessoaId);

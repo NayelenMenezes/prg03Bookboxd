@@ -82,6 +82,7 @@ public class EditoraService implements EditoraIService{
     }
 
     @Override
+    @Transactional
     public void delete(Long id) {
         validarId(id);
         
@@ -101,6 +102,7 @@ public class EditoraService implements EditoraIService{
     }
 
     @Override
+    @Transactional
     public List<Editora> findAll() {
         log.info("Listando todas as editoras");
         List<Editora> editoras = editoraRepository.findAll();
@@ -113,6 +115,7 @@ public class EditoraService implements EditoraIService{
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<Editora> findByNome(String nome) {
         if(StringUtil.isEmpty(nome)){
             throw new RuntimeException("Nome para busca não pdode ser vazio");
@@ -123,6 +126,8 @@ public class EditoraService implements EditoraIService{
         if(editoras.isEmpty()){
             throw new RuntimeException("Nenhuma editora encontrada com o nome: " + nome);
         }
+        
+        editoras.forEach(e -> Hibernate.initialize(e.getLivros()));
         return editoras;
     }
 
@@ -140,8 +145,10 @@ public class EditoraService implements EditoraIService{
         editora.atualizarDadosContato(novoSite);
         editoraRepository.save(editora);
     }
-
+    
+    //adiciona novos livros a editora
     @Override
+    @Transactional
     public void adicionarLivro(Long editoraId, Long livroId) {
         validarId(editoraId);
         

@@ -8,6 +8,7 @@ import javax.swing.table.DefaultTableModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+//telinha que exibe as listas de leitura
 @Component
 public class VerListaDialog extends javax.swing.JDialog {
     

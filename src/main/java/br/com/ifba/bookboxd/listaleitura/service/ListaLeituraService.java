@@ -9,7 +9,9 @@ import java.util.List;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.hibernate.Hibernate;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Slf4j
 @Service
@@ -60,6 +62,7 @@ public class ListaLeituraService implements ListaLeituraIService{
     }
     
     @Override
+    @Transactional(readOnly = true)
     public Optional<ListaLeitura> findById(Long id) {
         validarId(id);
         
@@ -68,6 +71,7 @@ public class ListaLeituraService implements ListaLeituraIService{
         if (lista.isEmpty()) {
             throw new RuntimeException("Lista não encontrada com id: " + id);
         }
+        Hibernate.initialize(lista.get().getListaLivros());
         return lista;
     }
 
@@ -84,6 +88,7 @@ public class ListaLeituraService implements ListaLeituraIService{
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<ListaLeitura> findAll() {
         log.info("Listando todas as listas de leitura");
         List<ListaLeitura> listas = listaLeituraRepository.findAll();
@@ -91,10 +96,12 @@ public class ListaLeituraService implements ListaLeituraIService{
         if (listas.isEmpty()) {
             throw new RuntimeException("Nenhuma lista de leitura cadastrada");
         }
+        listas.forEach(l -> Hibernate.initialize(l.getListaLivros()));
         return listas;
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<ListaLeitura> findByUsuarioId(Long usuarioId) {
         validarId(usuarioId);
         log.info("Buscando listas do usuário ID: {}", usuarioId);
@@ -103,10 +110,14 @@ public class ListaLeituraService implements ListaLeituraIService{
         if (listas.isEmpty()) {
             throw new RuntimeException("Nenhuma lista encontrada para o usuário id: " + usuarioId);
         }
+        
+        listas.forEach(l -> Hibernate.initialize(l.getListaLivros()));
         return listas;
     }
-
+    
+    //adiciona livros a lista
     @Override
+    @Transactional
     public void adicionarLivro(Long listaId, Long livroId) {
         validarId(listaId);
         validarId(livroId);
@@ -121,8 +132,10 @@ public class ListaLeituraService implements ListaLeituraIService{
         lista.adicionarLivro(livro);
         listaLeituraRepository.save(lista);
     }
-
+    
+    //remove um livro da lista
     @Override
+    @Transactional
     public void removerLivro(Long listaId, Long livroId) {
         validarId(listaId);
         validarId(livroId);
@@ -138,7 +151,9 @@ public class ListaLeituraService implements ListaLeituraIService{
         listaLeituraRepository.save(lista);
     }
 
+    //remove todos os livros da lista
     @Override
+    @Transactional
     public void esvaziarLista(Long listaId) {
         validarId(listaId);
 

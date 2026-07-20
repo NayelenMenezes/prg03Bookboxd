@@ -6,6 +6,7 @@ import java.util.List;
 import javax.swing.table.DefaultTableModel;
 import org.springframework.stereotype.Component;
 
+//tela que exiba os livros ligados aquela editora
 @Component
 public class VerLivrosEditoraDialog extends javax.swing.JDialog {
     
@@ -62,7 +63,7 @@ public class VerLivrosEditoraDialog extends javax.swing.JDialog {
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Long.class, java.lang.String.class, java.lang.String.class, java.lang.Double.class
+                java.lang.Long.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
             };
 
             public Class getColumnClass(int columnIndex) {

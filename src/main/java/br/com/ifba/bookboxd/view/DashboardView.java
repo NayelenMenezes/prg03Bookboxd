@@ -9,6 +9,7 @@ import br.com.ifba.bookboxd.infrastruture.util.SpringContextHolder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+//tela de dashboard
 @Component
 public class DashboardView extends javax.swing.JFrame {
     
@@ -93,11 +94,11 @@ public class DashboardView extends javax.swing.JFrame {
                 .addComponent(btnPerfil)
                 .addGap(41, 41, 41)
                 .addComponent(btnLivros)
-                .addGap(43, 43, 43)
-                .addComponent(btnAutor)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btnAutor)
+                .addGap(43, 43, 43)
                 .addComponent(btnEditoras)
-                .addGap(49, 49, 49)
+                .addGap(50, 50, 50)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(btnSair)
                     .addComponent(btnUsuarios))

@@ -11,6 +11,7 @@ import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Slf4j
 @Service
@@ -93,6 +94,7 @@ public class UsuarioService implements UsuarioIService {
     }
 
     @Override
+    @Transactional
     public List<Usuario> findAll() {
         log.info("Listando todos os usuarios");
         List<Usuario> usuarios = usuarioRepository.findAll();
@@ -104,6 +106,7 @@ public class UsuarioService implements UsuarioIService {
     }
     
     @Override
+    @Transactional
     public List<Usuario> findByNome(String nome) {
         if (StringUtil.isEmpty(nome)) {
             throw new RuntimeException("Nome para busca não pode ser vazio");
@@ -133,6 +136,7 @@ public class UsuarioService implements UsuarioIService {
         return usuario;
     }
     
+    //ver se o email e a senha correspondem
     @Override
     public Optional<Usuario> autenticar(String email, String senha) {
         if(StringUtil.isEmpty(email) || StringUtil.isEmpty(senha)){
@@ -150,6 +154,7 @@ public class UsuarioService implements UsuarioIService {
         return usuario;
     }
 
+    //alterar a senha
     @Override
     public boolean alterarSenha(Long usuarioId, String senhaAntiga, String novaSenha) {
         validarId(usuarioId);
@@ -172,6 +177,7 @@ public class UsuarioService implements UsuarioIService {
         return true;
     }
 
+    //editar o nome e a biio
     @Override
     public void editarPerfil(Long usuarioId, String nome, String bio) {
         validarId(usuarioId);
@@ -190,7 +196,9 @@ public class UsuarioService implements UsuarioIService {
         usuarioRepository.save(usuario);
     }
 
+    //cria nova lista de leitura
     @Override
+    @Transactional
     public ListaLeitura criarListaLeitura(Long usuarioId, String nome, String descricao) {
         validarId(usuarioId);
         

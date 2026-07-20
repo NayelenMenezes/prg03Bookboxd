@@ -9,6 +9,7 @@ import javax.swing.table.DefaultTableModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+//responsavel pelos CRUDs de autor
 @Component
 public class AutorView extends javax.swing.JFrame {
     

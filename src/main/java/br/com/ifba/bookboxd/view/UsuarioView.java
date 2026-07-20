@@ -10,6 +10,7 @@ import javax.swing.table.DefaultTableModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+//permite que você encontre outros usuarios
 @Component
 public class UsuarioView extends javax.swing.JFrame {
     

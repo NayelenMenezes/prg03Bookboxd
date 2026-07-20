@@ -12,6 +12,7 @@ import javax.swing.JOptionPane;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+//uma telinha que faz o cadastro de novos autores
 @Component
 public class CadastroAutorDialog extends javax.swing.JDialog {
     
@@ -26,6 +27,9 @@ public class CadastroAutorDialog extends javax.swing.JDialog {
         this.autorController = autorController;
         this.pessoaController = pessoaController;
         initComponents();
+        
+        txtBiografia.setLineWrap(true);
+        txtBiografia.setWrapStyleWord(true);
 
     }
 
